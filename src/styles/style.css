@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "/node_modules/leaflet/dist/leaflet.css";
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 70%;
+}
