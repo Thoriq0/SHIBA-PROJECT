@@ -1,6 +1,4 @@
 import L from 'leaflet';
-import { fiveEarthquakeData } from './api';
-
 
 
 export function currentInitializeMap() {
