@@ -11,14 +11,14 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-50">
+    <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-[9999]">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
-            <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span>
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="/images/shiba.png" class="h-8" alt="SHIBA" />
+                <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span> -->
             </a>
             <button data-collapse-toggle="navbar-default" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                 aria-controls="navbar-default" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -29,20 +29,20 @@
             </button>
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
                 <ul
-                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-white md:dark:bg-white dark:border-gray-700">
+                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                     <li>
                         <a href="#"
-                            class="block py-2 px-3 text-cyan-500 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                            class="block py-2 px-3 text-shiba bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
                             aria-current="page">Gempa Bumi</a>
                     </li>
                     <li>
                         <a href="#"
-                            class="block py-2 px-3 text-cyan-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0 dark:text-cyan-500 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Riwayat
+                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Riwayat
                             Gempa Bumi</a>
                     </li>
                     <li>
                         <a href="#"
-                            class="block py-2 px-3 text-cyan-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0 dark:text-cyan-500 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Berita
+                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Berita
                             Terkini</a>
                     </li>
                 </ul>
@@ -52,12 +52,11 @@
 
     <!-- Jumbotron -->
     <section
-        class="relative bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
+        class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply">
         <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
             <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-                SHIBA</h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">The Powerfull Apps for One
-                Purpose.
+                <span class="hover:text-shiba cursor-pointer">SHI</span><span class="hover:text-shibaA cursor-pointer">BA</span></h1>
+            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Menjadikan Informasi Bencana sebagai Senjata Utama Anda, Mengubah Ketakutan menjadi Keberanian dengan Akses Tepat Waktu dan Terpercaya.
             </p>
         </div>
     </section>
@@ -65,12 +64,15 @@
     <!-- Card About Container -->
     <div class="relative flex justify-center -mt-24 mb-24 px-4 sm:px-6 lg:px-8">
         <!-- Card About -->
-        <a href="#"
-            class="flex flex-col sm:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <div
+            class="flex flex-col p-11 sm:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5">
             <div class="flex flex-col justify-between p-4 leading-normal">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Tentang ....Picture
-                </h5>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                <div class="flex"> 
+                    <h5 class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2">Tentang</h5>
+                    <img src="/images/shiba.png" alt="SHIBA" class="w-28 box-border">
+                </div>
+                
+                <p class="mb-3 font-normal text-black pt-3">
                     Sistem Harian Informasi Bencana Alam adalah sebuah platform informasi bencana alam secara harian.
                     Platform ini didasarkan
                     pada kebutuhan akan akses mudah dan cepat terhadap informasi terkini tentang bencana alam, yang
@@ -79,21 +81,22 @@
                     mitigasi dan penanggulangan bencana.
                 </p>
             </div>
-            <img class="object-cover rounded-t-lg h-auto w-48 rounded-none rounded-s-lg"
-                src="https://cdn.icon-icons.com/icons2/2620/PNG/512/among_us_player_red_icon_156942.png" alt="">
-        </a>
+            <img class="object-cover rounded-t-lg h-auto w-48 rounded-none rounded-s-lg" src="/images/about.png" alt="EARTHQUAKE">
+        </div>
     </div>
 
     <!-- Map Full -->
-    <h1 class="text-center mb-12 text-3xl font-extrabold text-gray-900 dark:text-blue-700 md:text-5xl lg:text-6xl"><span
-            class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Gempa Bumi</span> Terbaru
-    </h1>
-    <div class="grid place-items-center px-4 lg:px-8">
-        <div class="w-full">
+    <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru</h1>
+    
+    <div id="map" class="h-96 rounded-lg mb-24 mx-auto w-10/12"></div>
+
+    <!-- <div class="grid place-items-center px-4 lg:px-8">
+        <div class="w-10/12">
+            <div id="map" class="rounded-t-lg" style="width: 200px;"></div>
             <img class="h-auto rounded-lg mb-24 mx-auto"
                 src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="">
         </div>
-    </div>
+    </div> -->
 
     <!-- Container Daftar Gempa Bumi -->
     <div class="max-w-full mx-auto py-8 px-24 bg-gray-200 mb-24">
