@@ -28,6 +28,12 @@ module.exports = {
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/dist/index.html'),
     }),
+
+    new HtmlWebpackPlugin({
+      filename: 'index2.html',
+      template: path.resolve(__dirname, 'src/dist/index2.html'),
+    }),
+    
     new CopyWebpackPlugin({
       patterns: [
         {
