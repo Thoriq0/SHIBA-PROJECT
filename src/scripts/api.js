@@ -1,8 +1,75 @@
+// API ENDPOINT BMKG
+const bmkgDaily = process.env.API_DALYBMKG;
+const bmkgList = process.env.API_LISTBMKG;
+const bmkgFiveM = process.env.API_MFIVEBMKG;
 
-// DAILY
-export async function getEarthquakeData() {
+// API SHIBA 
+const allSource = process.env.API_ALLPARAMSHIBA;
+const shibaDaily = process.env.API_DAILYSHIBA;
+const shibaList = process.env.API_LISTSHIBA;
+const shibaFiveM = process.env.API_MFIVESHIBA;
+
+export async function getAllParamShiba(){
+  try{
+    const response = await fetch(allSource);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.log('Something Wrong ' + error.message);
+  }
+}
+
+export async function getDailyShiba(){
+  try{
+    const response = await fetch(shibaDaily);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.log('Something Wrong ' + error.message);
+  }
+}
+
+export async function getListShiba(){
+  try{
+    const response = await fetch(shibaList);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.log('Something Wrong ' + error.message);
+  }
+}
+
+export async function getFiveMinuteShiba(){
+  try{
+    const response = await fetch(shibaFiveM);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.log('Something Wrong ' + error.message);
+  }
+}
+
+
+export async function getDailyBmkg(){
+  try{
+    const response = await fetch(bmkgDaily);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.log('Something Wrong ' + error.message);
+  }
+}
+
+
+// SHOWNG FOR DATA
+export async function getEarthquakeData() { 
   try {
-    const response = await fetch('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json');
+    const response = await fetch(bmkgDaily);
     if (!response.ok) {
       throw new Error('Something Problem With Response');
     }
@@ -12,3 +79,6 @@ export async function getEarthquakeData() {
     alert('There was a problem with the fetch operation: ' + error.message);
   }
 }
+
+
+
