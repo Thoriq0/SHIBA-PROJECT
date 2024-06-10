@@ -34,8 +34,8 @@ export default async function processDaily(){
 
   const {bmkg, shiba} = await dailyProcess();
 
-  console.log(bmkg.Infogempa)
-  console.log(shiba);
+  // console.log(bmkg.Infogempa)
+  // console.log(shiba);
 
   if (!bmkg || !shiba) {
     console.log('Failed to fetch data from BMKG or Shiba API');
