@@ -13,8 +13,8 @@
     <!-- Navbar -->
     <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-[9999]">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
-            <a href="homepage.html" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="/images/shiba.png" class="h-8" alt="SHIBA" />
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
                 <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span> -->
             </a>
             <button data-collapse-toggle="navbar-default" type="button"
@@ -31,7 +31,7 @@
                 <ul
                     class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
                     <li>
-                        <a href="homepage.html"
+                        <a href="/"
                             class="block py-2 px-3 text-shiba bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
                             aria-current="page">Gempa Bumi</a>
                     </li>
@@ -73,7 +73,7 @@
             <div class="flex flex-col justify-between p-4 leading-normal">
                 <div class="flex">
                     <h5 class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2">Tentang</h5>
-                    <img src="/images/shiba.png" alt="SHIBA" class="w-28 box-border">
+                    <img src="./images/shiba.png" alt="SHIBA" class="w-28 box-border">
                 </div>
 
                 <p class="mb-3 font-normal text-black pt-3">
@@ -85,7 +85,7 @@
                     mitigasi dan penanggulangan bencana.
                 </p>
             </div>
-            <img class="object-cover rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="/images/about.png" alt="EARTHQUAKE">
+            <img class="object-cover rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="./images/about.png" alt="EARTHQUAKE">
         </div>
     </div>
 
@@ -102,43 +102,11 @@
     <!-- Container Daftar Gempa Bumi -->
     <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 bg-backgroundGreyMain mb-12">
         <!-- Title -->
-        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Daftar Gempa Bumi (April)</h2>
+        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Daftar Gempa Bumi <span class="month"></span></h2>
 
         <!-- Card Grid -->
-        <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 monthly-grid">
             <!-- Card -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img class="w-full h-48 object-cover"
-                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Banyuwangi">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Banyuwangi</h3>
-                    <p class="text-gray-700">17 Sept 2024 18:00 WIB</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img class="w-full h-48 object-cover"
-                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Jakarta">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Jakarta</h3>
-                    <p class="text-gray-700">17 Sept 2024 18:00 WIB</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img class="w-full h-48 object-cover"
-                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Bali">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Bali</h3>
-                    <p class="text-gray-700">17 Sept 2024 18:00 WIB</p>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img class="w-full h-48 object-cover"
-                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Medan">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Medan</h3>
-                    <p class="text-gray-700">17 Sept 2024 18:00 WIB</p>
-                </div>
-            </div>
         </div>
 
         <!-- Button Lihat Lainnya -->
@@ -157,7 +125,7 @@
             <a href="#"
                 class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow lg:flex-row lg:max-w-screen-md hover:bg-gray-100">
                 <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                    src="/images/icon/shibal.png" alt="Image">
+                    src="./images/icon/shibal.png" alt="Image">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Noteworthy
                         technology acquisitions 2021</h5>
@@ -169,7 +137,7 @@
             <a href="#"
                 class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow lg:flex-row lg:max-w-screen-md hover:bg-gray-100">
                 <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                    src="/images/icon/shibal.png" alt="Image">
+                    src="./images/icon/shibal.png" alt="Image">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Noteworthy
                         technology acquisitions 2021</h5>
@@ -181,7 +149,7 @@
             <a href="#"
                 class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow lg:flex-row lg:max-w-screen-md hover:bg-gray-100">
                 <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                    src="/images/icon/shibal.png" alt="Image">
+                    src="./images/icon/shibal.png" alt="Image">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Noteworthy
                         technology acquisitions 2021</h5>
@@ -193,7 +161,7 @@
             <a href="#"
                 class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow lg:flex-row lg:max-w-screen-md hover:bg-gray-100">
                 <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                    src="/images/icon/shibal.png" alt="Image">
+                    src="./images/icon/shibal.png" alt="Image">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Noteworthy
                         technology acquisitions 2021</h5>
@@ -211,7 +179,7 @@
         <div class="grid gap-8 grid-cols-1 lg:grid-cols-3 justify-items-center">
             <!-- Card -->
             <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-                <img class="w-full h-auto rounded-t-lg" src="/images/icon/shibal.png" alt="Image">
+                <img class="w-full h-auto rounded-t-lg" src="./images/icon/shibal.png" alt="Image">
                 <div class="p-5">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
                         Gempa Bumi</h5>
@@ -227,7 +195,7 @@
             </div>
 
             <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-                <img class="w-full h-auto rounded-t-lg" src="/images/icon/shibal.png" alt="Image">
+                <img class="w-full h-auto rounded-t-lg" src="./images/icon/shibal.png" alt="Image">
                 <div class="p-5">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
                         Gempa Bumi</h5>
@@ -243,7 +211,7 @@
             </div>
 
             <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-                <img class="w-full h-autorounded-t-lg" src="/images/icon/shibal.png" alt="Image">
+                <img class="w-full h-autorounded-t-lg" src="./images/icon/shibal.png" alt="Image">
                 <div class="p-5">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
                         Gempa Bumi</h5>
@@ -275,7 +243,7 @@
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
-                        <img src="/images/shiba.png" class="h-8" alt="SHIBA" />
+                        <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
                         <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap">SHIBA</span> -->
                     </a>
                 </div>

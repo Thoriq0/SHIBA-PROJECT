@@ -26,8 +26,8 @@ module.exports = {
     new CleanWebpackPlugin(),
 
     new HtmlWebpackPlugin({
-      filename: 'homepage.html',
-      template: path.resolve(__dirname, 'src/dist/homepage.html'),
+      filename: 'index.html',
+      template: path.resolve(__dirname, 'src/dist/index.html'),
     }),
 
     new HtmlWebpackPlugin({
