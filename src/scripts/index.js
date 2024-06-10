@@ -48,16 +48,68 @@ if(path == '/'){
   }
   main();
 
+
+  // Get Data For Showing to index
+  getDailyShiba().then(data => {
+    // Convert Shiba Daily To Array
+    let shibaArray = Object.values(data);
+
+    let cardCount = 0;
+
+    // Get current date and month
+    const currentDate = new Date();
+    const monthNames = ["Januari", "Februari", "Marert", "April", "May", "Juni", "Juli", "Agustis", "September", "Oktober", "November", "Desember"];
+    const currentMonthName = monthNames[currentDate.getMonth()];
+
+    const getTitle = document.querySelector('.month');
+    getTitle.innerHTML = "("+currentMonthName+")";
+
+    shibaArray.forEach(item => {
+      let city = [{ Wilayah: item.Wilayah }];
+
+      function getCityName(city) {
+          const word = city.split(" ");
+          let cityName = word[word.length - 1];
+          if (cityName.includes("-")) {
+              cityName = cityName.replace("-", " ");
+          }
+          const lastWord = word[word.length - 2];
+          return lastWord + " " + cityName;
+      }
+
+      let cityName = city.map(earthQuake => getCityName(earthQuake.Wilayah));
+
+      if (cardCount < 4) {
+          // Check if cityName contains "LAUT" or "laut"
+          let imageUrl = "./images/darat.jpg";
+          if (cityName.some(name => name.toUpperCase().includes("LAUT"))) {
+              imageUrl = "./images/laut.jpg";
+          }
+
+          let getCardGrid = document.querySelector('.monthly-grid');
+          let createCard = `
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                  <img class="w-full h-48 object-cover" src="${imageUrl}" alt="${cityName}">
+                  <div class="p-6">
+                      <h3 class="text-xl font-bold mb-2">${cityName}</h3>
+                      <p class="text-gray-700">${item.Tanggal} - ${item.Jam}</p>
+                  </div>
+              </div>
+          `;
+          getCardGrid.innerHTML += createCard;
+
+          cardCount++;
+      }
+
+    });
+
+      console.log(shibaArray);
+  });
+
+
 }
 
-getDailyShiba().then(data => {
 
-  // Convert Shiba Daily To Array
-  let shibaArray = Object.values(data);
-
-  
-  
-});
 
 
 
