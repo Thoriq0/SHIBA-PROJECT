@@ -26,13 +26,13 @@ module.exports = {
     new CleanWebpackPlugin(),
 
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, 'src/dist/index.html'),
+      filename: 'homepage.html',
+      template: path.resolve(__dirname, 'src/dist/homepage.html'),
     }),
 
     new HtmlWebpackPlugin({
-      filename: 'index2.html',
-      template: path.resolve(__dirname, 'src/dist/index2.html'),
+      filename: 'earthquakeMonthly.html',
+      template: path.resolve(__dirname, 'src/dist/earthquakeMonthly.html'),
     }),
     
     new CopyWebpackPlugin({
