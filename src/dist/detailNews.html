@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./public/images/icon/shibal.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>SHIBA (Sistem Harian Informasi Bencana Alam)</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-[9999]">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
+                <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span> -->
+            </a>
+            <button data-collapse-toggle="navbar-default" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                aria-controls="navbar-default" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul
+                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+                    <li>
+                        <a href="/"
+                            class="block py-2 px-3 text-shiba bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                            aria-current="page">Gempa Bumi</a>
+                    </li>
+                    <li>
+                        <a href="earthquakeMonthly.html"
+                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Riwayat
+                            Gempa Bumi</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Berita
+                            Terkini</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Jumbotron -->
+    <section class="relative bg-center bg-cover bg-gray-700 bg-blend-multiply h-48">
+     <div class="px-4 mx-auto max-w-screen-xl text-left py-8">
+         <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl">Beranda > Berita Terkini > Cara Membaca Data Gempa Bumi</p>
+     </div>
+    </section>
+
+     <!-- Berita Terkini -->
+     <div class="max-w-full mx-auto p-6 md:py-8">
+         
+         <div class="grid gap-8 grid-cols-1 lg:grid-cols-1 justify-items-center">
+             <!-- Card -->
+            <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+                <img class="w-full h-auto rounded-t-lg" src="./images/icon/shibal.png" alt="Image">
+                <div class="p-5">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
+                        Gempa Bumi</h5>
+                    <p class="mb-3 font-semibold text-black text-justify">Gempa bumi adalah peristiwa alam yang sering terjadi di berbagai belahan dunia. Untuk memahami gempa bumi dengan lebih baik dan mengambil langkah-langkah pencegahan yang diperlukan, penting untuk bisa membaca data gempa dengan benar. Artikel ini akan memberikan panduan lengkap tentang cara membaca data gempa bumi.
+
+                        1. Sumber Data Gempa Bumi
+                        Data gempa bumi dikumpulkan dari berbagai sumber, termasuk jaringan stasiun seismik di seluruh dunia. Beberapa organisasi yang terkemuka dalam pengumpulan data gempa bumi adalah United States Geological Survey (USGS), Badan Meteorologi, Klimatologi, dan Geofisika (BMKG), serta berbagai lembaga penelitian dan universitas di seluruh dunia.
+                        
+                        2. Parameter Utama
+                        Magnitudo: Ukuran energi yang dilepaskan oleh gempa bumi. Skala magnitudo Richter atau Moment adalah yang paling umum digunakan.
+                        Kedalaman: Jarak vertikal dari pusat gempa bumi ke permukaan Bumi.
+                        Epidenter: Titik di permukaan Bumi tepat di atas pusat gempa bumi.
+                        Waktu: Waktu terjadinya gempa bumi, sering kali diberikan dalam format UTC (Coordinated Universal Time).
+                        3. Peta Gempa Bumi
+                        Peta gempa bumi menunjukkan lokasi dan kekuatan gempa bumi dalam suatu wilayah. Titik-titik pada peta menunjukkan episenter gempa bumi, dengan simbol yang berbeda untuk magnitudo yang berbeda. Peta juga dapat memberikan informasi tentang kedalaman gempa bumi.
+                        
+                        4. Grafik Seismograf
+                        Seismograf merekam gerakan tanah selama gempa bumi. Grafik seismograf menunjukkan waktu (sumbu horizontal) versus amplitudo getaran (sumbu vertikal). Gempa bumi yang lebih kuat akan menciptakan gelombang seismik dengan amplitudo yang lebih besar pada grafik.
+                        
+                        5. Distribusi dan Analisis Data
+                        Data gempa bumi dapat dianalisis untuk mengidentifikasi pola distribusi spasial dan temporal gempa bumi. Ini membantu para ilmuwan memahami aktivitas seismik di wilayah tertentu dan memprediksi potensi gempa bumi di masa depan.
+                        
+                        6. Peringatan Dini dan Tindakan Pencegahan
+                        Dengan memahami data gempa bumi, masyarakat dapat menerima peringatan dini tentang potensi gempa bumi dan mengambil tindakan pencegahan yang sesuai. Ini termasuk mempersiapkan diri dengan prosedur evakuasi, memperkuat bangunan, dan meningkatkan kesadaran akan risiko gempa bumi.
+                        
+                        7. Sumber Daya Online
+                        Banyak organisasi menyediakan sumber daya online untuk memantau gempa bumi secara real-time. Situs web seperti USGS Earthquake Hazards Program dan BMKG menyediakan pembaruan langsung tentang gempa bumi terbaru, peta interaktif, dan informasi tambahan tentang aktivitas seismik.
+                        
+                        Kesimpulan
+                        Membaca data gempa bumi membutuhkan pemahaman tentang parameter utama seperti magnitudo, kedalaman, dan waktu, serta kemampuan untuk menganalisis dan menginterpretasi informasi tersebut. Dengan pemahaman yang baik tentang data gempa bumi, kita dapat meningkatkan kesiapsiagaan dan mengurangi dampak gempa bumi yang mematikan.</p>
+                    <div class="border-t-2 border-t-gray-400 mt-4">
+                        <p class="mt-3 text-sm text-gray-500">Januari 12, 2024</p>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+    </div>
+
+     <!-- Berita Terkini -->
+     <div class="max-w-full mx-auto p-6 md:py-8">
+        <h2 class="text-3xl font-extrabold mb-8 text-center text-shiba">Berita Terkini</h2>
+
+        <div class="grid gap-8 grid-cols-1 lg:grid-cols-3 justify-items-center">
+            <!-- Card -->
+            <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+                <img class="w-full h-auto rounded-t-lg" src="./images/icon/shibal.png" alt="Image">
+                <div class="p-5">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
+                        Gempa Bumi</h5>
+                    <p class="mb-3 font-semibold text-black">Data gempa dibaca dengan
+                        mempertimbangkan magnitudo, lokasi, kedalaman, skala, gelombang, dan parameter seismik.</p>
+                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                        Baca Selengkapnya >>
+                    </a>
+                    <div class="border-t-2 border-t-gray-400 mt-4">
+                        <p class="mt-3 text-sm text-gray-500">Januari 12, 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+                <img class="w-full h-auto rounded-t-lg" src="./images/icon/shibal.png" alt="Image">
+                <div class="p-5">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
+                        Gempa Bumi</h5>
+                    <p class="mb-3 font-semibold text-black">Data gempa dibaca dengan
+                        mempertimbangkan magnitudo, lokasi, kedalaman, skala, gelombang, dan parameter seismik.</p>
+                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                        Baca Selengkapnya >>
+                    </a>
+                    <div class="border-t-2 border-t-gray-400 mt-4">
+                        <p class="mt-3 text-sm text-gray-500">Januari 12, 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+                <img class="w-full h-autorounded-t-lg" src="./images/icon/shibal.png" alt="Image">
+                <div class="p-5">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">Cara Membaca Data
+                        Gempa Bumi</h5>
+                    <p class="mb-3 font-semibold text-black">Data gempa dibaca dengan
+                        mempertimbangkan magnitudo, lokasi, kedalaman, skala, gelombang, dan parameter seismik.</p>
+                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                        Baca Selengkapnya >>
+                    </a>
+                    <div class="border-t-2 border-t-gray-400 mt-4">
+                        <p class="mt-3 text-sm text-gray-500">Januari 12, 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            
+        </div>
+
+        <div class="text-center mt-8">
+            <button class="px-4 py-2 bg-bluebutton text-white rounded-lg shadow-md hover:bg-blue-700">
+                Berita Lainnya
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-footerbg">
+        <div class="mx-auto w-full max-w-screen-xl md:max-w-screen-2xl p-4 py-6 lg:py-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="https://flowbite.com/" class="flex items-center">
+                        <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
+                        <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap">SHIBA</span> -->
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">Layanan Kami</h2>
+                        <ul class="text-gray-500 font-medium">
+                            <li class="mb-2">
+                                <a href="https://flowbite.com/" class="hover:underline">Gempa Bumi Terbaru</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="https://tailwindcss.com/" class="hover:underline">Daftar Gempa
+                                    Bumi(...Bulan)</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="https://tailwindcss.com/" class="hover:underline">Gempa Bumi Terbaru</a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="https://tailwindcss.com/" class="hover:underline">Berita Terkini</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">Copyright by
+                            SHIBA 2024. All Right Reserved</h2>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <span class="text-sm text-gray-500 sm:text-center">© 2023 <a
+                        href="https://flowbite.com/" class="hover:underline">SHIBA™</a>. All Rights Reserved.
+                </span>
+                <div class="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 8 19">
+                            <path fill-rule="evenodd"
+                                d="M5.117 5.578V3.89c0-.432.028-.758.084-.975.06-.232.174-.42.345-.575.126-.119.32-.233.583-.345.268-.11.587-.166.961-.166h1.342V.06H6.775C5.873.06 5.17.222 4.666.545c-.503.318-.875.748-1.117 1.292-.242.54-.363 1.214-.363 2.024v1.717H.498V8.75H3.19v9.46h1.927V8.75h2.68l.392-3.172H5.117Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Facebook page</span>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M17.316 6.246c.011.155.011.312.011.467 0 4.75-3.617 10.22-10.22 10.22A10.17 10.17 0 0 1 0 14.362c.233.028.454.039.7.039a7.191 7.191 0 0 0 4.453-1.535 3.588 3.588 0 0 1-3.35-2.48c.233.04.467.062.712.062.337 0 .673-.045.983-.13a3.581 3.581 0 0 1-2.87-3.513v-.045a3.57 3.57 0 0 0 1.62.45 3.578 3.578 0 0 1-1.602-2.98c0-.673.18-1.291.5-1.83a10.19 10.19 0 0 0 7.39 3.75 3.593 3.593 0 0 1 6.1-3.275 7.14 7.14 0 0 0 2.276-.872 3.564 3.564 0 0 1-1.573 1.981 7.17 7.17 0 0 0 2.063-.556 7.767 7.767 0 0 1-1.797 1.862Z" />
+                        </svg>
+                        <span class="sr-only">Twitter page</span>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 0a10 10 0 1 0 0 20A10 10 0 0 0 10 0Zm0 3a7 7 0 0 1 7 7 7 7 0 1 1-7-7Zm0 2.45A4.55 4.55 0 1 0 10 14a4.55 4.55 0 0 0 0-9.1Zm0 1.36A3.19 3.19 0 1 1 10 13.64a3.19 3.19 0 0 1 0-6.38Zm5.64-.53a1.05 1.05 0 1 0-2.1 0 1.05 1.05 0 0 0 2.1 0Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Instagram page</span>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 0a10 10 0 1 0 0 20A10 10 0 0 0 10 0ZM8.89 15.545h-2.91v-8.91h2.91v8.91Zm-1.45-10.13h-.02a1.51 1.51 0 1 1 .02 0Zm8.91 10.13h-2.9v-4.33c0-1.09-.39-1.82-1.36-1.82-.74 0-1.18.5-1.37.99-.07.17-.09.41-.09.66v4.5h-2.9s.04-7.3 0-8.91h2.9v1.26c.39-.6 1.08-1.45 2.63-1.45 1.92 0 3.36 1.26 3.36 3.96v5.14Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">LinkedIn page</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
