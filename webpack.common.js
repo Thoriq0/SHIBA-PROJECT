@@ -44,6 +44,11 @@ module.exports = {
       filename: 'newsList.html',
       template: path.resolve(__dirname, 'src/dist/newsList.html'),
     }),
+
+    new HtmlWebpackPlugin({
+      filename: 'listHighm.html',
+      template: path.resolve(__dirname, 'src/dist/listHighm.html'),
+    }),
     
     new CopyWebpackPlugin({
       patterns: [
