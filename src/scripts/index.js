@@ -234,6 +234,48 @@ if(path == '/earthquakeMonthly.html'){
   const getTitleMonth = document.querySelector('.titleMonth');
   getTitleMonth.innerHTML = currentMonthName
 
+  function generateModal(earth, index){
+    return `
+    <div id="modal${index}" class="fixed inset-0 z-[9999] overflow-auto hidden md:overflow-hidden">
+        <div class="flex items-center justify-center min-h-screen px-4 mt-8">
+            <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full overflow-auto">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h3 class="text-xl font-semibold">Detail Gempa Bumi</h3>
+                    <button onclick="closeModal('modal${index}')" class="text-gray-400 hover:text-gray-600">
+                        <span class="text-xl">&times;</span>
+                    </button>
+                </div>
+                <div class="p-4 flex flex-col md:flex-row">
+                    <div class="md:w-2/3">
+                        <ul class="list-disc pl-5">
+                            <li>Tanggal : ${earth.Tanggal}</li>
+                            <li>Jam : ${earth.Jam}</li>
+                            <li>DateTime : ${earth.DateTime}</li>
+                            <li>Coordinates : ${earth.Coordinates}</li>
+                            <li>Lintang : ${earth.Lintang}</li>
+                            <li>Bujur : ${earth.Bujur}</li>
+                            <li>Magnitude : ${earth.Magnitude}</li>
+                            <li>Kedalaman : ${earth.Kedalaman}</li>
+                            <li>Wilayah : ${earth.Wilayah}</li>
+                            <li>Potensi : ${earth.Potensi}</li>
+                            <li>Dirasakan : ${earth.Dirasakan}</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 md:mt-0 md:ml-4 md:w-1/3 flex justify-center">
+                        <img src="https://data.bmkg.go.id/DataMKG/TEWS/${earth.Shakemap}" alt="Earthquake Image" class="rounded-lg w-full h-auto max-h-64 object-cover">
+                    </div>
+                </div>
+                <div class="flex justify-end p-4 border-t">
+                    <button onclick="closeModal('modal${index}')" class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+  }
+
   // CONTENT MONTLY EARTHQUAKE
   getDailyShiba().then(month => {
     // Convert Shiba Daily To Array
@@ -241,6 +283,7 @@ if(path == '/earthquakeMonthly.html'){
 
     // Container 
     const containerContent = document.querySelector('.main-content');
+    const modalContainer = document.querySelector('.modal-container');
 
     shibaArray.forEach((earth, index) => {
       let city = [{ Wilayah: earth.Wilayah }];
@@ -281,7 +324,7 @@ if(path == '/earthquakeMonthly.html'){
                     <li>Potensi : ${earth.Potensi}</li>
                 </ul>
                 </p>
-                <button onclick="openModal('modal1')"
+                <button onclick="openModal('modal${index}')"
                     class="mt-4 w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-bluebutton rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                     <p class="text-center">Info Detail</p>
                 </button>
@@ -289,6 +332,9 @@ if(path == '/earthquakeMonthly.html'){
         </div>
         `;
         containerContent.innerHTML += earthquakeElement;
+
+        const modalHTML = generateModal(earth, index);
+        modalContainer.innerHTML += modalHTML;
     });
 
     shibaArray.forEach((earth, index) => {
