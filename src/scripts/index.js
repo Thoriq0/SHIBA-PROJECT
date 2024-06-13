@@ -137,8 +137,10 @@ if(path == '/'){
 
         
 
-        <div class="flex flex-row items-center bg-white border border-gray-200 rounded-lg shadow lg:max-w-screen-md hover:bg-gray-100">
+        <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow lg:max-w-screen-md hover:bg-gray-100">
+
           <img class="object-cover w-full h-52 rounded-l-lg" src="./images/p${countFive}.png" alt="Image">
+
           <div class="flex flex-col justify-between p-4 leading-normal">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${cityName}</h5>
               <p class="mb-3 font-normal text-black">
@@ -146,6 +148,7 @@ if(path == '/'){
                   Dengan kekuatan Magnitudo ${earth.Magnitude} dan status ${earth.Potensi}
               </p>
           </div>
+
       </div>
 
 
@@ -221,6 +224,7 @@ if(path == '/'){
 
 // MONTLY EARTHQUAKE
 if(path == '/earthquakeMonthly.html'){
+    pushNews();
   
   // NAVBAR
   const getNavbarMonth = document.querySelector('.month-month');
@@ -234,7 +238,7 @@ if(path == '/earthquakeMonthly.html'){
   const getTitleMonth = document.querySelector('.titleMonth');
   getTitleMonth.innerHTML = currentMonthName
 
-  function generateModal(earth, index){
+    function generateModal(earth, index){
     return `
     <div id="modal${index}" class="fixed inset-0 z-[9999] overflow-auto hidden md:overflow-hidden">
         <div class="flex items-center justify-center min-h-screen px-4 mt-8">
@@ -347,11 +351,137 @@ if(path == '/earthquakeMonthly.html'){
         }
     });
 
-
   });
+
+
+
+
+//   For News
+// FOR NEWS
+shibaNews().then(data => {
+
+
+    const firstValue = Object.values(data)[0];
+    let getNewsContainer = document.querySelector('.news-shiba');
+
+    let countNews = 0;
+
+    firstValue.forEach((items, index) =>{
+
+      if(countNews < 3){
+
+        let timestamp = items.timestamp;
+        let convert = parseInt(timestamp);
+        let date = new Date(convert);
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        let dayOfWeek = date.getDay();
+
+        let daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        let dayName = daysOfWeek[dayOfWeek];
+
+        let formattedDate = `${dayName}, ${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+
+        function truncateText(text, maxLength) {
+          if (text.length > maxLength) {
+              return text.substring(0, maxLength) + '...';
+          }
+          return text;
+        }
+
+        let truncatedTitle = truncateText(items.title, 55);
+        console.log("Original title: ", items.title);
+            console.log("Truncated title: ", truncatedTitle);
+
+        let itemNews = `
+          <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+              <img class="w-full max-h-64 rounded-t-lg" src="${items.images.thumbnailProxied}" alt="Image">
+              <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
+                  <p class="mb-3 font-semibold text-black">${items.snippet}</p>
+                  <a href="${items.newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank">
+                      Baca Selengkapnya >>
+                  </a>
+                  <div class="border-t-2 border-t-gray-400 mt-4">
+                      <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
+                  </div>
+              </div>
+          </div>
+        `
+        getNewsContainer.innerHTML += itemNews
+        countNews++;
+      }
+    })
+  })
 
 
 }
 
 
 
+if(path == '/newsList.html'){
+
+    // FOR NEWS
+shibaNews().then(data => {
+
+
+    const firstValue = Object.values(data)[0];
+    let getNewsContainer = document.querySelector('.news-shiba');
+
+    let countNews = 0;
+
+    firstValue.forEach((items, index) =>{
+
+      if(countNews < 39){
+
+        let timestamp = items.timestamp;
+        let convert = parseInt(timestamp);
+        let date = new Date(convert);
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        let dayOfWeek = date.getDay();
+
+        let daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        let dayName = daysOfWeek[dayOfWeek];
+
+        let formattedDate = `${dayName}, ${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+
+        function truncateText(text, maxLength) {
+          if (text.length > maxLength) {
+              return text.substring(0, maxLength) + '...';
+          }
+          return text;
+        }
+
+        let truncatedTitle = truncateText(items.title, 55);
+        console.log("Original title: ", items.title);
+            console.log("Truncated title: ", truncatedTitle);
+
+        let itemNews = `
+          <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+              <img class="w-full max-h-64 rounded-t-lg" src="${items.images.thumbnailProxied}" alt="Image">
+              <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
+                  <p class="mb-3 font-semibold text-black">${items.snippet}</p>
+                  <a href="${items.newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank">
+                      Baca Selengkapnya >>
+                  </a>
+                  <div class="border-t-2 border-t-gray-400 mt-4">
+                      <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
+                  </div>
+              </div>
+          </div>
+        `
+        getNewsContainer.innerHTML += itemNews
+        countNews++;
+      }
+    })
+  })
+
+}
