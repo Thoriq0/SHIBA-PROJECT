@@ -68,8 +68,7 @@
     <!-- Card About Container -->
     <div class="relative flex justify-center -mt-24 mb-24 px-4 sm:px-6 lg:px-8">
         <!-- Card About -->
-        <div
-            class="flex flex-col p-11 sm:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5">
+        <div class="flex flex-col p-11 md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5">
             <div class="flex flex-col justify-between p-4 leading-normal">
                 <div class="flex">
                     <h5 class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2">Tentang</h5>
@@ -85,7 +84,7 @@
                     mitigasi dan penanggulangan bencana.
                 </p>
             </div>
-            <img class="object-cover rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="./images/about.png" alt="EARTHQUAKE">
+            <img class="object-cover hidden md:inline-block rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="./images/about.png" alt="EARTHQUAKE">
         </div>
     </div>
 
@@ -111,7 +110,7 @@
 
         <!-- Button Lihat Lainnya -->
         <div class="flex justify-center mt-8">
-            <a href="#"
+            <a href="earthquakeMonthly.html"
                 class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Lihat
                 Lainnya</a>
         </div>
@@ -120,8 +119,8 @@
     <!-- Container Gempa Bumi Dirasakan -->
     <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 mb-12">
         <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru (Magnitudo 5.0+)</h1>
-        <!-- Daftar Gempa Bumi Dirasakan -->
-        <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 lg:gap-4 justify-items-center fiveM">
+    <!-- Daftar Gempa Bumi Dirasakan -->
+        <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 justify-items-center fiveM">
             
         </div>
     </div>
@@ -130,15 +129,14 @@
     <div class="max-w-full mx-auto p-6 md:py-8">
         <h2 class="text-3xl font-extrabold mb-8 text-center text-shiba">Berita Terkini</h2>
 
-        <div class="w-[89%] m-auto grid gap-8 grid-cols-1 lg:grid-cols-3 justify-items-center news-shiba">
+        <div class="w-[89%] m-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center news-shiba">
             <!-- Card -->
 
         </div>
 
         <div class="text-center mt-8">
-            <button class="px-4 py-2 bg-bluebutton text-white rounded-lg shadow-md hover:bg-blue-700">
-                Berita Lainnya
-            </button>
+            <a href="/detailNews.html"
+                class="bg-bluebutton text-white px-4 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Berita Lainnya</a>
         </div>
     </div>
 
