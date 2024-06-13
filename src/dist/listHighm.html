@@ -15,7 +15,6 @@
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
-                <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span> -->
             </a>
             <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -52,96 +51,53 @@
 
     <!-- Jumbotron -->
     <section
-        class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply">
-        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-                <span class="hover:text-shiba cursor-pointer">SHI</span><span
-                    class="hover:text-shibaA cursor-pointer">BA</span>
+        class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply h-48">
+        <div class="px-4 mx-auto max-w-screen-xl text-left py-8">
+            <h1 class="my-4 text-2xl font-extrabold leading-none text-white md:text-3xl">
+                <span class="hover:text-shiba cursor-pointer">BERITA</span><span
+                    class="hover:text-shibaA cursor-pointer">TERKINI</span>
             </h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Menjadikan Informasi Bencana
-                sebagai Senjata Utama Anda, Mengubah Ketakutan menjadi Keberanian dengan Akses Tepat Waktu dan
-                Terpercaya.
-            </p>
+            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl">Beranda > Berita Terkini</p>
         </div>
     </section>
 
-    <!-- Card About Container -->
-    <div class="relative flex justify-center -mt-24 mb-24 px-4 sm:px-6 lg:px-8">
-        <!-- Card About -->
-        <div class="flex flex-col p-11 md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5">
-            <div class="flex flex-col justify-between p-4 leading-normal">
-                <div class="flex">
-                    <h5 class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2">Tentang</h5>
-                    <img src="./images/shiba.png" alt="SHIBA" class="w-28 box-border">
-                </div>
-
-                <p class="mb-3 font-normal text-black pt-3">
-                    Sistem Harian Informasi Bencana Alam adalah sebuah platform informasi bencana alam secara harian.
-                    Platform ini didasarkan
-                    pada kebutuhan akan akses mudah dan cepat terhadap informasi terkini tentang bencana alam, yang
-                    menjadi
-                    krusial dalam upaya
-                    mitigasi dan penanggulangan bencana.
-                </p>
-            </div>
-            <img class="object-cover hidden md:inline-block rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="./images/about.png" alt="EARTHQUAKE">
-        </div>
-    </div>
-
-    <!-- Map Full -->
-    <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru</h1>
-    <div class="flex flex-col md:flex-row items-center p-6 rounded-lg shadow-xl w-4/5 m-auto mb-24">
-        <div class="md:w-5/12 aspect-ratio-83-33 overflow-hidden rounded-lg image-map"></div>
-        <div class="md:w-7/12 mt-6 md:mt-0 md:ml-6">
-            <div id="map" class="h-60 rounded-lg w-full"></div>
-            <div class="information-daily mb-4 pt-4"></div>
-        </div>
-    </div>
-
     <!-- Container Daftar Gempa Bumi -->
-    <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 bg-backgroundGreyMain mb-12">
-        <!-- Title -->
-        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Gempa Bumi <span class="month"></span></h2>
+    
 
-        <!-- Card Grid -->
-        <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 monthly-grid">
-            <!-- Card -->
-        </div>
 
-        <!-- Button Lihat Lainnya -->
-        <div class="flex justify-center mt-8">
-            <a href="earthquakeMonthly.html"
-                class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Info Lengkap</a>
-        </div>
-    </div>
 
-    <!-- Container Gempa Bumi Dirasakan -->
-    <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 mb-12">
-        <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru (Magnitudo 5.0+)</h1>
-    <!-- Daftar Gempa Bumi Dirasakan -->
-        <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 justify-items-center fiveM">
-            
-        </div>
-        <div class="flex justify-center mt-8">
-            <a href="listHighm.html"
-                class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center">List Magnitudo 5.0+</a>
-        </div>
-    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3">
+                      #
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Lintang
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Bujur
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Magnitudo
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Kedalaman
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Wilayah
+                </th>
+              </tr>
+          </thead>
+          <tbody class="tbody">
+              
+          </tbody>
+      </table>
+  </div>
+  
 
-    <!-- Berita Terkini -->
-    <div class="max-w-full mx-auto p-6 md:py-8">
-        <h2 class="text-3xl font-extrabold mb-8 text-center text-shiba">Berita Terkini</h2>
 
-        <div class="w-[89%] m-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center news-shiba">
-            <!-- Card -->
-
-        </div>
-
-        <div class="text-center mt-8">
-            <a href="/newsList.html"
-                class="bg-bluebutton text-white px-4 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Berita Lainnya</a>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-footerbg">
@@ -180,5 +136,4 @@
             
     </footer>
 </body>
-
 </html>

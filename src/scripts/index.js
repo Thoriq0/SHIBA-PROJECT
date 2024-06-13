@@ -485,3 +485,44 @@ shibaNews().then(data => {
   })
 
 }
+
+if(path == '/listHighm.html'){
+
+    getFiveMBmkg().then(data =>{
+        
+        const tbody = document.querySelector('.tbody');
+        
+
+        data.Infogempa.gempa.forEach((item, index) => {
+            let convert = parseInt(index);
+            const dataTable = `
+
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    ${convert + 1}
+                </th>
+                <td class="px-6 py-4">
+                    ${item.Lintang}
+                </td>
+                <td class="px-6 py-4">
+                    ${item.Bujur}
+                </td>
+                <td class="px-6 py-4">
+                    ${item.Magnitude}
+                </td>
+                <td class="px-6 py-4 text-right">
+                    ${item.Kedalaman}
+                </td>
+                <td class="px-6 py-4 text-right">
+                    ${item.Wilayah}
+                </td>
+            </tr>
+            
+            
+            `
+            tbody.innerHTML += dataTable;
+        })
+
+    })
+
+}
