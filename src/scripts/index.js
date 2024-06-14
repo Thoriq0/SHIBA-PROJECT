@@ -24,6 +24,11 @@ if (path == "/" || path.endsWith("index.html")) {
   processDaily();
   pushNews();
 
+  let body = document.querySelector("body");
+  body.style.overflow = "hidden";
+  let load = document.querySelector(".conload");
+  load.style.display = "flex";
+
   // DAILY SHOW
   getDailyBmkg().then((data) => {
     // console.log(data);
@@ -123,7 +128,6 @@ if (path == "/" || path.endsWith("index.html")) {
         cardCount++;
       }
     });
-
     // console.log(shibaArray);
   });
 
@@ -240,13 +244,21 @@ if (path == "/" || path.endsWith("index.html")) {
         countNews++;
       }
     });
+    load.style.display = "none";
+    body.style.overflow = "auto";
   });
 }
 
 // MONTLY EARTHQUAKE
-if (path == "/earthquakeMonthly.html" || path.endsWith("earthquakeMonthly.html")) {
+if (
+  path == "/earthquakeMonthly.html" ||
+  path.endsWith("earthquakeMonthly.html")
+) {
   pushNews();
-
+  let body = document.querySelector("body");
+  body.style.overflow = "hidden";
+  let load = document.querySelector(".conload");
+  load.style.display = "flex";
   // NAVBAR
   const getNavbarMonth = document.querySelector(".month-month");
   const currentDate = new Date();
@@ -446,10 +458,16 @@ if (path == "/earthquakeMonthly.html" || path.endsWith("earthquakeMonthly.html")
         countNews++;
       }
     });
+    load.style.display = "none";
+    body.style.overflow = "auto";
   });
 }
 
 if (path == "/newsList.html" || path.endsWith("newsList.html")) {
+  let body = document.querySelector("body");
+  body.style.overflow = "hidden";
+  let load = document.querySelector(".conload");
+  load.style.display = "flex";
   // FOR NEWS
   shibaNews().then((data) => {
     const firstValue = Object.values(data)[0];
@@ -512,10 +530,12 @@ if (path == "/newsList.html" || path.endsWith("newsList.html")) {
         countNews++;
       }
     });
+    load.style.display = "none";
+    body.style.overflow = "auto";
   });
 }
 
-if (path == "/listHighm.html" || path.endsWith('listHighm.html')) {
+if (path == "/listHighm.html" || path.endsWith("listHighm.html")) {
   getFiveMBmkg().then((data) => {
     const tbody = document.querySelector(".tbody");
 
