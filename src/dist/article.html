@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./public/images/icon/shibal.png" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>SHIBA (Sistem Harian Informasi Bencana Alam)</title>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-[9999]">
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6"
+      >
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
+        </a>
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg
+            class="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul
+            class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white"
+          >
+            <li>
+              <a
+                href="index.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:hover:text-cyan-500"
+                aria-current="page"
+                >Gempa Bumi</a
+              >
+            </li>
+            <li>
+              <a
+                href="earthquakeMonthly.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
+                >Riwayat Gempa Bumi</a
+              >
+            </li>
+            <li>
+              <a
+                href="newsList.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
+                >Berita Terkini</a
+              >
+            </li>
+            <li>
+              <a
+                href="article.html"
+                class="block py-2 px-3 text-shiba active md:bg-transparent rounded md:border-0 md:text-blue-700 md:p-0"
+                >Artikel</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Jumbotron -->
+    <section
+      class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply h-48"
+    >
+      <div class="px-4 mx-auto max-w-screen-xl text-left py-8">
+        <h1
+          class="my-4 text-2xl font-extrabold leading-none text-white md:text-3xl"
+        >
+          <span class="hover:text-shiba cursor-pointer">ART</span>I<span
+            class="hover:text-shibaA cursor-pointer"
+            >KEL</span
+          >
+        </h1>
+        <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl">
+          Beranda > Artikel
+        </p>
+      </div>
+    </section>
+
+    <div class="container w-[75%] m-auto my-20">
+      <!-- ARTIKEL 1 -->
+      <div class="a1">
+        <h1 class="text-2xl font-extrabold">GempaBumi</h1>
+        <hr class="border-black border rounded my-2" />
+        <div
+          style="background-image: url(./images/a1.jpg)"
+          class="bg-cover bg-no-repeat w-full bg-center h-64"
+        ></div>
+        <div class="w-full mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+          <p class="mb-3">
+            Gempa bumi adalah fenomena alam yang terjadi ketika terjadi
+            pelepasan energi secara tiba-tiba di dalam kerak bumi, yang
+            menyebabkan getaran atau goncangan di permukaan bumi. Penyebab utama
+            gempa bumi adalah pergerakan lempeng tektonik yang saling bergerak
+            mendadak. Fenomena ini dapat menyebabkan gelombang seismik yang
+            merambat melalui bumi dan dapat dirasakan di berbagai wilayah,
+            tergantung pada kedalaman dan kekuatannya.
+          </p>
+
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <p class="mb-3">
+              Gempa bumi dapat dibedakan berdasarkan berbagai faktor, termasuk
+              penyebabnya dan kedalamannya. Secara umum, gempa bumi dapat
+              terjadi karena aktivitas tektonik, tumbukan meteor atau asteroid,
+              runtuhan struktur geologi seperti kapur atau tambang, aktivitas
+              manusia seperti peledakan dinamit, atau aktivitas vulkanik sebelum
+              letusan gunung api.
+            </p>
+            <p class="mb-3">
+              Berdasarkan kedalaman, gempa bumi dapat diklasifikasikan menjadi
+              gempa bumi dalam, menengah, atau dangkal. Gempa bumi dalam
+              biasanya terjadi di kedalaman lebih dari 300 km di bawah permukaan
+              bumi dan cenderung kurang berbahaya dibandingkan dengan gempa bumi
+              dangkal yang terjadi pada kedalaman kurang dari 60 km.
+            </p>
+          </div>
+
+          <p class="mb-3">
+            Gempa bumi juga dapat menyebabkan kerusakan yang bervariasi
+            tergantung pada kedalaman, lokasi, dan kekuatannya. Gempa bumi besar
+            dengan magnitudo di atas 7 dapat menyebabkan kerusakan serius dan
+            dampak jangka panjang pada masyarakat dan lingkungan sekitarnya.
+          </p>
+
+          <div class="source mt-4 text-sm text-gray-600">
+            <p>
+              Sumber:
+              <a
+                href="https://bpbd.ntbprov.go.id/pages/gempa-bumi"
+                target="_blank"
+                class="text-blue-500 hover:underline"
+                >Bpd/Gempa-Bumi</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTIKEL 2 -->
+      <div class="a1 mt-10">
+        <h1 class="text-2xl font-extrabold">Mitigasi Bencana</h1>
+        <hr class="border-black border rounded my-2" />
+        <div
+          style="background-image: url(./images/a2.jpg)"
+          class="bg-cover bg-no-repeat w-full bg-center h-64"
+        ></div>
+        <div class="w-full mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+          <p class="mb-3">
+            Mitigasi adalah upaya yang dilakukan untuk mengurangi risiko
+            bencana. Hal terkait mitigasi juga diatur dalam UU Nomor 24 Tahun
+            2007. Undang-Undang tersebut juga memuat definisi tentang mitigasi.
+          </p>
+
+          <p class="mb-3">
+            Menurut UU 24 Tahun 2007,
+            <strong
+              >mitigasi adalah serangkaian upaya untuk mengurangi resiko
+              bencana, baik melalui pembangunan fisik maupun penyadaran dan
+              peningkatan kemampuan menghadapi ancaman bencana.</strong
+            >
+          </p>
+
+          <p class="mb-3">
+            Mitigasi adalah upaya yang memiliki sejumlah tujuan yakni untuk
+            mengenali risiko, penyadaran akan risiko bencana, perencanaan
+            penanggulangan, dan sebagainya. Bisa dikatakan, mitigasi bencana
+            adalah segala upaya mulai dari pencegahan sebelum suatu bencana
+            terjadi sampai dengan penanganan usai suatu bencana terjadi.
+          </p>
+
+          <p class="mb-3">
+            Untuk lebih memahami mengenai mitigasi, perlu dipahami beberapa
+            pengertian dan langkah-langkahnya. Berikut adalah pengertian
+            mitigasi serta contoh tindakan penanganan bencana.
+          </p>
+
+          <h2 class="text-xl font-bold mb-3">Pengertian Mitigasi</h2>
+          <p class="mb-3">
+            Menurut Kamus Besar Bahasa Indonesia (KBBI), <u>mitigasi</u> adalah
+            kata benda yang memiliki dua makna tergantung konteks penggunaannya.
+            Makna pertama, mitigasi adalah upaya menjadikan berkurang kekasaran
+            atau atau kesuburannya (tentang tanah dan sebagainya). Sedangkan
+            makna kedua, mitigasi adalah tindakan mengurangi dampak bencana.
+          </p>
+
+          <p class="mb-3">
+            Mitigasi adalah kata yang memiliki padanan kata dalam bahasa
+            Inggris, <strong>mitigation</strong>. Definisi
+            <em>mitigation</em> bahasa Inggris, mitigasi adalah tindakan
+            mengurangi keparahan, keseriusan, atau rasa sakit dari sesuatu.
+          </p>
+
+          <p class="mb-3">
+            Menurut Cambridge Dictionary, mitigasi adalah tindakan mengurangi
+            seberapa berbahaya, tidak menyenangkan, atau buruknya sesuatu.
+            Sementara itu menurut Merriam-Webster, mitigasi adalah tindakan
+            mengurangi sesuatu atau keadaan yang dikurangi: proses atau hasil
+            membuat sesuatu yang kurang parah, berbahaya, menyakitkan, keras,
+            atau merusak.
+          </p>
+
+          <p class="mb-3">
+            Dari sejumlah definisi tersebut ada kesamaan komponen makna, yakni
+            mengurangi sesuatu yang terkait dengan risiko, dampak, buruk, atau
+            hal-hal yang tidak diinginkan. Dengan kata lain, bisa dikatakan
+            bahwa mitigasi adalah serangkaian upaya yang dilakukan untuk
+            mengurangi risiko, dampak buruk atau hal lain yang tidak diinginkan,
+            akibat dari suatu peristiwa, yang umumnya adalah bencana.
+          </p>
+
+          <h2 class="text-xl font-bold mb-3">Langkah-Langkah Mitigasi</h2>
+          <p class="mb-3">
+            Mengingat bencana alam merupakan risiko yang tidak terhindarkan,
+            maka mitigasi adalah hal penting yang perlu diketahui untuk
+            setidaknya mengurangi dampak dari bencana. Mitigasi adalah langkah
+            yang memiliki sejumlah prosedur dan tahapan guna mengurangi risiko
+            dan dampak dari bencana.
+          </p>
+
+          <p class="mb-3">
+            Berikut tahap-tahap mitigasi seperti yang telah dikutip Liputan6.com
+            dari laman resmi BPBD Kabupaten Purworejo:
+          </p>
+
+          <ol class="list-decimal list-inside mb-3">
+            <li>
+              Mitigasi adalah langkah yang memiliki tahap awal penanggulangan
+              bencana alam untuk mengurangi dan memperkecil dampak bencana.
+              Mitigasi adalah langkah yang juga dilakukan sebelum bencana
+              terjadi. Contoh kegiatannya antara lain membuat peta wilayah rawan
+              bencana, pembuatan bangunan tahan gempa, penanaman pohon bakau,
+              penghijauan hutan, serta memberikan penyuluhan dan meningkatkan
+              kesadaran masyarakat yang tinggal di wilayah rawan bencana.
+            </li>
+            <li>
+              Berikutnya, langkah dari mitigasi adalah perencanaan. Perencanaan
+              dibuat berdasarkan bencana yang pernah terjadi dan bencana lain
+              yang mungkin akan terjadi. Tujuannya adalah untuk meminimalkan
+              korban jiwa dan kerusakan sarana-sarana pelayanan umum yang
+              meliputi upaya mengurangi tingkat risiko, pengelolaan
+              sumber-sumber daya masyarakat, serta pelatihan warga di wilayah
+              rawan bencana.
+            </li>
+            <li>
+              Langkah ketiga mitigasi adalah respons, yang merupakan upaya
+              meminimalkan bahaya yang diakibatkan bencana. Tahap ini
+              berlangsung sesaat setelah terjadi bencana. Rencana penanggulangan
+              bencana dilaksanakan dengan fokus pada upaya pertolongan korban
+              bencana dan antisipasi kerusakan yang terjadi akibat bencana.
+            </li>
+            <li>
+              Hal yang tak kalah penting dari upaya mitigasi adalah pemulihan.
+              Langkah ini merupakan langkah yang perlu diambil setelah bencana
+              terjadi guna mengembalikan kondisi masyarakat seperti semula.
+            </li>
+          </ol>
+          <p class="mb-3">
+            Berdasarkan siklus waktunya, kegiatan penanganan bencana dapat
+            dibagi 4 kategori :
+          </p>
+
+          <ol class="list-decimal list-inside mb-3">
+            <li>Kegiatan sebelum bencana terjadi.</li>
+            <li>Kegiatan saat bencana terjadi.</li>
+            <li>Kegiatan tepat setelah bencana terjadi.</li>
+            <li>
+              Kegiatan pasca bencana yang meliputi pemulihan, penyembuhan,
+              perbaikan, dan rehabilitasi.
+            </li>
+          </ol>
+
+          <h2 class="text-xl font-bold mb-3">Contoh Mitigasi</h2>
+
+          <h3 class="text-lg font-bold mb-1">Mitigasi Bencana Tsunami</h3>
+          <p class="mb-3">
+            Mitigasi bencana tsunami adalah sistem untuk mendeteksi tsunami dan
+            memberi peringatan untuk mencegah jatuhnya korban. Ada dua jenis
+            sistem peringatan dini tsunami, yaitu sistem peringatan tsunami
+            internasional dan sistem peringatan tsunami regional.
+          </p>
+
+          <h3 class="text-lg font-bold mb-1">Mitigasi Bencana Gunung Berapi</h3>
+          <p class="mb-3">
+            Upaya mitigasi bencana gunung berapi meliputi pemantauan aktivitas
+            gunung api. Data hasil pemantauan dikirim ke Direktorat Vulkanologi
+            dan Mitigasi Bencana Geologi (DVMBG) di Bandung dengan radio
+            komunikasi SSB.
+          </p>
+          <p class="mb-3">
+            Selain pemantauan, mitigasi bencana gunung berapi juga melibatkan
+            pemetaan untuk mengetahui kawasan rawan bencana gunung berapi. Ini
+            juga memungkinkan untuk menjelaskan jenis dan sifat bahaya, daerah
+            rawan bencana, arah penyelamatan diri, pengungsian, dan pos
+            penanggulangan bencana gunung berapi.
+          </p>
+          <p class="mb-3">
+            Bagian yang tidak kalah penting dari mitigasi bencana gunung berapi
+            adalah sosialisasi. Tujuannya langkah mitigasi adalah untuk
+            menyadarkan masyarakat terkait risiko bencana di lereng gunung
+            berapi.
+          </p>
+
+          <h3 class="text-lg font-bold mb-1">Mitigasi Bencana Gempa Bumi</h3>
+          <p class="mb-3">
+            Langkah mitigasi gempa bumi pun dibedakan menjadi tiga, yakni
+            langkah sebelum gempa, langkah saat terjadi gempa, dan langkah pasca
+            gempa.
+          </p>
+          <ul class="list-disc list-inside mb-3">
+            <li>Tetap tenang</li>
+            <li>
+              Hindari sesuatu yang kemungkinan akan roboh, kalau bisa ke tanah
+              lapang
+            </li>
+            <li>
+              Perhatikan tempat Anda berdiri, kemungkinan ada retakan tanah
+            </li>
+            <li>Turun dari kendaraan dan jauhi pantai.</li>
+          </ul>
+          <p class="mb-3">Setelah gempa, ikuti langkah berikut ini:</p>
+          <ul class="list-disc list-inside mb-3">
+            <li>Cepat keluar dari bangunan. Gunakan tangga biasa</li>
+            <li>
+              Periksa sekitar Anda. Jika ada yang terluka, lakukan pertolongan
+              pertama.
+            </li>
+            <li>Hindari bangunan yang berpotensi roboh.</li>
+          </ul>
+
+          <h3 class="text-lg font-bold mb-1">Mitigasi Tanah Longsor</h3>
+          <p class="mb-3">
+            Terkait dengan tanah longsor, mitigasi adalah upaya yang perlu
+            dilakukan untuk mengurangi dampak tanah longsor. Berikut hal-hal
+            yang bisa dilakukan:
+          </p>
+          <ol class="list-decimal list-inside mb-3">
+            <li>Hindari daerah rawan bencana untuk membangun pemukiman</li>
+            <li>Mengurangi tingkat keterjalan lereng</li>
+            <li>Terasering dengan sistem drainase yang tepat</li>
+            <li>Penghijauan dengan tanaman berakar dalam</li>
+            <li>Mendirikan bangunan berpondasi kuat</li>
+            <li>
+              Penutupan rekahan di atas lereng untuk mencegah air cepat masuk
+            </li>
+            <li>Relokasi (dalam beberapa kasus)</li>
+          </ol>
+
+          <p class="mb-3">
+            Demikian pemaparan mengenai mitigasi, mulai dari pengertian,
+            langkah-langkah, hingga contoh tindakan yang dapat menurunkan dampak
+            dari timbulnya bencana.
+          </p>
+
+          <div class="source mt-4 text-sm text-gray-600">
+            <p>
+              Sumber:
+              <a
+                href="https://bpbd.bogorkab.go.id/mitigasi-adalah-upaya-mengurangi-risiko-berikut-langkah-langkah-dan-contohnya/"
+                target="_blank"
+                class="text-blue-500 hover:underline"
+                >Bpd/Mitigasi</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-footerbg">
+      <div
+        class="mx-auto w-full max-w-screen-xl md:max-w-screen-2xl p-5 py-6 lg:py-8"
+      >
+        <div class="w-[90%] m-auto md:flex md:justify-between">
+          <div class="mb-6 md:mb-0 mr-3">
+            <a href="https://flowbite.com/" class="m-auto mt-3">
+              <img
+                src="./images/footerShiba.png"
+                class="h-[81px] w-[223px]"
+                alt="SHIBA"
+              />
+            </a>
+          </div>
+          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
+            <div>
+              <h2 class="mb-3 text-lg font-black text-shiba uppercase">
+                Layanan Kami
+              </h2>
+              <ul class="text-shiba">
+                <li class="mb-1">
+                  <a href="earthquakeMonthly.html" class="hover:underline"
+                    >Daftar Gempa Bumi</a
+                  >
+                </li>
+                <li class="mb-1">
+                  <a href="listHighm.html" class="hover:underline"
+                    >Daftar GempaBumi M5+</a
+                  >
+                </li>
+                <li class="mb-1">
+                  <a href="newsList.html" class="hover:underline"
+                    >Berita Terkini</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 class="mb-6 text-sm text-shiba uppercase">
+                Copyright by SHIBA 2024. All Right Reserved
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
