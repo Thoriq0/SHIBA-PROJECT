@@ -24,7 +24,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/dist/index.html'),
@@ -36,11 +35,6 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      filename: 'detailNews.html',
-      template: path.resolve(__dirname, 'src/dist/detailNews.html'),
-    }),
-
-    new HtmlWebpackPlugin({
       filename: 'newsList.html',
       template: path.resolve(__dirname, 'src/dist/newsList.html'),
     }),
@@ -48,6 +42,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'listHighm.html',
       template: path.resolve(__dirname, 'src/dist/listHighm.html'),
+    }),
+
+    new HtmlWebpackPlugin({
+      filename: 'article.html',
+      template: path.resolve(__dirname, 'src/dist/article.html'),
     }),
     
     new CopyWebpackPlugin({

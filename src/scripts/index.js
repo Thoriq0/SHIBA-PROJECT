@@ -1,40 +1,50 @@
 // FILE SOURCE
 import "../styles/style.css";
-import 'flowbite';
-import 'flowbite/dist/flowbite.min.js';
-import 'leaflet';
-import { getEarthquakeData, getDailyBmkg, getDailyShiba, getFiveMBmkg, shibaNews} from './api.js';
-import { currentInitializeMap, currentAddMarkerToMap, fiveMInitializeMap, fiveMAddMarkerToMap } from './leaflet.js';
-import {processDaily, pushNews} from './dataProcessing.js';
+import "flowbite";
+import "flowbite/dist/flowbite.min.js";
+import "leaflet";
+import {
+  getEarthquakeData,
+  getDailyBmkg,
+  getDailyShiba,
+  getFiveMBmkg,
+  shibaNews,
+} from "./api.js";
+import {
+  currentInitializeMap,
+  currentAddMarkerToMap,
+  fiveMInitializeMap,
+  fiveMAddMarkerToMap,
+} from "./leaflet.js";
+import { processDaily, pushNews } from "./dataProcessing.js";
 
 // HOMEPAGE
 const path = window.location.pathname;
-if(path == '/'){
+if (path == "/" || path.endsWith("index.html")) {
   processDaily();
   pushNews();
 
-  // DAILY SHOW 
-  getDailyBmkg().then(data => {
+  // DAILY SHOW
+  getDailyBmkg().then((data) => {
     // console.log(data);
 
     // LEFT SIDE (IMAGE)
     const getContainer = document.querySelector(".image-map");
     const image = `
     <img src="https://data.bmkg.go.id/DataMKG/TEWS/${data.Infogempa.gempa.Shakemap}" alt="shakemap" class="w-full h-full object-cover">
-    `
+    `;
     getContainer.innerHTML += image;
 
     // RIGHT SIDE (INFORMATION)
-    const getC = document.querySelector('.information-daily');
+    const getC = document.querySelector(".information-daily");
 
     const showInformation = `
     <p>
       Pada Tanggal ${data.Infogempa.gempa.Tanggal} pukul ${data.Infogempa.gempa.Jam}, Terjadi gempa bumi
       di wilayah ${data.Infogempa.gempa.Wilayah}. Gempa tersebut memiliki kekuatan Magnitudo ${data.Infogempa.gempa.Magnitude} dengan kedalaman ${data.Infogempa.gempa.Kedalaman}
     </p>
-    `
+    `;
     getC.innerHTML += showInformation;
-
   });
 
   // DAILY MAP
@@ -42,15 +52,14 @@ if(path == '/'){
     const map = currentInitializeMap();
     const coordinates = await getEarthquakeData();
     if (coordinates) {
-      const [lat, lon] = coordinates.split(',').map(Number);
+      const [lat, lon] = coordinates.split(",").map(Number);
       currentAddMarkerToMap(map, lat, lon);
     }
   }
   main();
 
-
   // Get Data For Showing to index
-  getDailyShiba().then(data => {
+  getDailyShiba().then((data) => {
     // Convert Shiba Daily To Array
     let shibaArray = Object.values(data).reverse();
 
@@ -58,36 +67,49 @@ if(path == '/'){
 
     // Get current date and month
     const currentDate = new Date();
-    const monthNames = ["Januari", "Februari", "Marert", "April", "May", "Juni", "Juli", "Agustis", "September", "Oktober", "November", "Desember"];
+    const monthNames = [
+      "Januari",
+      "Februari",
+      "Marert",
+      "April",
+      "May",
+      "Juni",
+      "Juli",
+      "Agustis",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
     const currentMonthName = monthNames[currentDate.getMonth()];
 
-    const getTitle = document.querySelector('.month');
+    const getTitle = document.querySelector(".month");
     getTitle.innerHTML = currentMonthName;
 
-    shibaArray.forEach(item => {
+    shibaArray.forEach((item) => {
       let city = [{ Wilayah: item.Wilayah }];
 
       function getCityName(city) {
-          const word = city.split(" ");
-          let cityName = word[word.length - 1];
-          if (cityName.includes("-")) {
-              cityName = cityName.replace("-", " ");
-          }
-          const lastWord = word[word.length - 2];
-          return lastWord + " " + cityName;
+        const word = city.split(" ");
+        let cityName = word[word.length - 1];
+        if (cityName.includes("-")) {
+          cityName = cityName.replace("-", " ");
+        }
+        const lastWord = word[word.length - 2];
+        return lastWord + " " + cityName;
       }
 
-      let cityName = city.map(earthQuake => getCityName(earthQuake.Wilayah));
+      let cityName = city.map((earthQuake) => getCityName(earthQuake.Wilayah));
 
       if (cardCount < 4) {
-          // Check if cityName contains "LAUT" or "laut"
-          let imageUrl = "./images/darat.jpg";
-          if (cityName.some(name => name.toUpperCase().includes("LAUT"))) {
-              imageUrl = "./images/laut.jpg";
-          }
+        // Check if cityName contains "LAUT" or "laut"
+        let imageUrl = "./images/darat.jpg";
+        if (cityName.some((name) => name.toUpperCase().includes("LAUT"))) {
+          imageUrl = "./images/laut.jpg";
+        }
 
-          let getCardGrid = document.querySelector('.monthly-grid');
-          let createCard = `
+        let getCardGrid = document.querySelector(".monthly-grid");
+        let createCard = `
               <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                   <img class="w-full h-48 object-cover" src="${imageUrl}" alt="${cityName}">
                   <div class="p-6">
@@ -96,42 +118,38 @@ if(path == '/'){
                   </div>
               </div>
           `;
-          getCardGrid.innerHTML += createCard;
+        getCardGrid.innerHTML += createCard;
 
-          cardCount++;
+        cardCount++;
       }
-
     });
 
-      // console.log(shibaArray);
+    // console.log(shibaArray);
   });
 
-
   // DAILY FVE
-  getFiveMBmkg().then(data => {
-
+  getFiveMBmkg().then((data) => {
     let fiveM = data.Infogempa.gempa;
 
-    let getFiveMContainer = document.querySelector('.fiveM');
+    let getFiveMContainer = document.querySelector(".fiveM");
 
     let countFive = 0;
 
     fiveM.forEach((earth, index) => {
-
       let city = [{ Wilayah: earth.Wilayah }];
 
       function getCityName(city) {
         const word = city.split(" ");
         let cityName = word[word.length - 1];
         if (cityName.includes("-")) {
-            cityName = cityName.replace("-", " ");
+          cityName = cityName.replace("-", " ");
         }
         return cityName;
       }
 
-      let cityName = city.map(earthQuake => getCityName(earthQuake.Wilayah));
+      let cityName = city.map((earthQuake) => getCityName(earthQuake.Wilayah));
 
-      if(countFive < 4){
+      if (countFive < 4) {
         let itemFive = `
 
 
@@ -154,25 +172,21 @@ if(path == '/'){
 
 
           `;
-          getFiveMContainer.innerHTML += itemFive;
-          countFive++;
-        }
-      });
+        getFiveMContainer.innerHTML += itemFive;
+        countFive++;
+      }
+    });
   });
 
-
   // FOR NEWS
-  shibaNews().then(data => {
-
+  shibaNews().then((data) => {
     const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector('.news-shiba');
+    let getNewsContainer = document.querySelector(".news-shiba");
 
     let countNews = 0;
 
-    firstValue.forEach((items, index) =>{
-
-      if(countNews < 3){
-
+    firstValue.forEach((items, index) => {
+      if (countNews < 3) {
         let timestamp = items.timestamp;
         let convert = parseInt(timestamp);
         let date = new Date(convert);
@@ -183,21 +197,29 @@ if(path == '/'){
 
         let dayOfWeek = date.getDay();
 
-        let daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        let daysOfWeek = [
+          "Minggu",
+          "Senin",
+          "Selasa",
+          "Rabu",
+          "Kamis",
+          "Jumat",
+          "Sabtu",
+        ];
         let dayName = daysOfWeek[dayOfWeek];
 
-        let formattedDate = `${dayName}, ${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
+          month < 10 ? "0" + month : month
+        }-${year}`;
 
         function truncateText(text, maxLength) {
           if (text.length > maxLength) {
-              return text.substring(0, maxLength) + '...';
+            return text.substring(0, maxLength) + "...";
           }
           return text;
         }
 
         let truncatedTitle = truncateText(items.title, 55);
-        console.log("Original title: ", items.title);
-            console.log("Truncated title: ", truncatedTitle);
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
@@ -213,32 +235,44 @@ if(path == '/'){
                   </div>
               </div>
           </div>
-        `
-        getNewsContainer.innerHTML += itemNews
+        `;
+        getNewsContainer.innerHTML += itemNews;
         countNews++;
       }
-    })
-  })
+    });
+  });
 }
 
-
 // MONTLY EARTHQUAKE
-if(path == '/earthquakeMonthly.html'){
-    pushNews();
-  
+if (path == "/earthquakeMonthly.html" || path.endsWith("earthquakeMonthly.html")) {
+  pushNews();
+
   // NAVBAR
-  const getNavbarMonth = document.querySelector('.month-month');
+  const getNavbarMonth = document.querySelector(".month-month");
   const currentDate = new Date();
-  const monthNames = ["Januari", "Februari", "Marert", "April", "May", "Juni", "Juli", "Agustis", "September", "Oktober", "November", "Desember"];
+  const monthNames = [
+    "Januari",
+    "Februari",
+    "Marert",
+    "April",
+    "May",
+    "Juni",
+    "Juli",
+    "Agustis",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
   const currentMonthName = monthNames[currentDate.getMonth()];
   const monthUpperCase = monthNames[currentDate.getMonth()].toUpperCase();
   getNavbarMonth.innerHTML = monthUpperCase;
 
   // Title Month
-  const getTitleMonth = document.querySelector('.titleMonth');
-  getTitleMonth.innerHTML = currentMonthName
+  const getTitleMonth = document.querySelector(".titleMonth");
+  getTitleMonth.innerHTML = currentMonthName;
 
-    function generateModal(earth, index) {
+  function generateModal(earth, index) {
     return `
     <div id="modal${index}" class="fixed inset-0 z-[9999] hidden overflow-hidden">
         <div class="flex items-center justify-center min-h-screen px-4 mt-8">
@@ -273,38 +307,40 @@ if(path == '/earthquakeMonthly.html'){
         </div>
     </div>
     `;
-}
+  }
 
   // CONTENT MONTLY EARTHQUAKE
-  getDailyShiba().then(month => {
+  getDailyShiba().then((month) => {
     // Convert Shiba Daily To Array
-    let shibaArray = Object.values(month).reverse()
+    let shibaArray = Object.values(month).reverse();
 
-    // Container 
-    const containerContent = document.querySelector('.main-content');
-    const modalContainer = document.querySelector('.modal-container');
+    // Container
+    const containerContent = document.querySelector(".main-content");
+    const modalContainer = document.querySelector(".modal-container");
 
     shibaArray.forEach((earth, index) => {
       let city = [{ Wilayah: earth.Wilayah }];
 
       function getCityName(city) {
-          const word = city.split(" ");
-          let cityName = word[word.length - 1];
-          if (cityName.includes("-")) {
-              cityName = cityName.replace("-", " ");
-          }
-          const lastWord = word[word.length - 2];
-          return lastWord + " " + cityName;
+        const word = city.split(" ");
+        let cityName = word[word.length - 1];
+        if (cityName.includes("-")) {
+          cityName = cityName.replace("-", " ");
+        }
+        const lastWord = word[word.length - 2];
+        return lastWord + " " + cityName;
       }
 
-      let cityNameArray = city.map(earthQuake => getCityName(earthQuake.Wilayah));
-      let cityName = cityNameArray.join(', ');
+      let cityNameArray = city.map((earthQuake) =>
+        getCityName(earthQuake.Wilayah)
+      );
+      let cityName = cityNameArray.join(", ");
 
       function truncateText(text, maxLength) {
-          if (text.length > maxLength) {
-              return text.substring(0, maxLength) + '...';
-          }
-          return text;
+        if (text.length > maxLength) {
+          return text.substring(0, maxLength) + "...";
+        }
+        return text;
       }
 
       const truncatedCityName = truncateText(cityName, 20);
@@ -330,41 +366,33 @@ if(path == '/earthquakeMonthly.html'){
             </div>
         </div>
         `;
-        containerContent.innerHTML += earthquakeElement;
+      containerContent.innerHTML += earthquakeElement;
 
-        const modalHTML = generateModal(earth, index);
-        modalContainer.innerHTML += modalHTML;
+      const modalHTML = generateModal(earth, index);
+      modalContainer.innerHTML += modalHTML;
     });
 
     shibaArray.forEach((earth, index) => {
-        if (earth.Coordinates) {
-            const [lat, lon] = earth.Coordinates.split(',').map(Number);
-            const map = fiveMInitializeMap(index);
-            fiveMAddMarkerToMap(map, lat, lon);
-        } else {
-            console.error(`Data gempa ke-${index} tidak memiliki koordinat.`);
-        }
+      if (earth.Coordinates) {
+        const [lat, lon] = earth.Coordinates.split(",").map(Number);
+        const map = fiveMInitializeMap(index);
+        fiveMAddMarkerToMap(map, lat, lon);
+      } else {
+        console.error(`Data gempa ke-${index} tidak memiliki koordinat.`);
+      }
     });
-
   });
 
-
-
-
-//   For News
-// FOR NEWS
-shibaNews().then(data => {
-
-
+  //   For News
+  // FOR NEWS
+  shibaNews().then((data) => {
     const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector('.news-shiba');
+    let getNewsContainer = document.querySelector(".news-shiba");
 
     let countNews = 0;
 
-    firstValue.forEach((items, index) =>{
-
-      if(countNews < 3){
-
+    firstValue.forEach((items, index) => {
+      if (countNews < 3) {
         let timestamp = items.timestamp;
         let convert = parseInt(timestamp);
         let date = new Date(convert);
@@ -375,21 +403,29 @@ shibaNews().then(data => {
 
         let dayOfWeek = date.getDay();
 
-        let daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        let daysOfWeek = [
+          "Minggu",
+          "Senin",
+          "Selasa",
+          "Rabu",
+          "Kamis",
+          "Jumat",
+          "Sabtu",
+        ];
         let dayName = daysOfWeek[dayOfWeek];
 
-        let formattedDate = `${dayName}, ${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
+          month < 10 ? "0" + month : month
+        }-${year}`;
 
         function truncateText(text, maxLength) {
           if (text.length > maxLength) {
-              return text.substring(0, maxLength) + '...';
+            return text.substring(0, maxLength) + "...";
           }
           return text;
         }
 
         let truncatedTitle = truncateText(items.title, 55);
-        console.log("Original title: ", items.title);
-            console.log("Truncated title: ", truncatedTitle);
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
@@ -405,33 +441,24 @@ shibaNews().then(data => {
                   </div>
               </div>
           </div>
-        `
-        getNewsContainer.innerHTML += itemNews
+        `;
+        getNewsContainer.innerHTML += itemNews;
         countNews++;
       }
-    })
-  })
-
-
+    });
+  });
 }
 
-
-
-if(path == '/newsList.html'){
-
-    // FOR NEWS
-shibaNews().then(data => {
-
-
+if (path == "/newsList.html" || path.endsWith("newsList.html")) {
+  // FOR NEWS
+  shibaNews().then((data) => {
     const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector('.news-shiba');
+    let getNewsContainer = document.querySelector(".news-shiba");
 
     let countNews = 0;
 
-    firstValue.forEach((items, index) =>{
-
-      if(countNews < 39){
-
+    firstValue.forEach((items, index) => {
+      if (countNews < 39) {
         let timestamp = items.timestamp;
         let convert = parseInt(timestamp);
         let date = new Date(convert);
@@ -442,21 +469,29 @@ shibaNews().then(data => {
 
         let dayOfWeek = date.getDay();
 
-        let daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        let daysOfWeek = [
+          "Minggu",
+          "Senin",
+          "Selasa",
+          "Rabu",
+          "Kamis",
+          "Jumat",
+          "Sabtu",
+        ];
         let dayName = daysOfWeek[dayOfWeek];
 
-        let formattedDate = `${dayName}, ${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
+          month < 10 ? "0" + month : month
+        }-${year}`;
 
         function truncateText(text, maxLength) {
           if (text.length > maxLength) {
-              return text.substring(0, maxLength) + '...';
+            return text.substring(0, maxLength) + "...";
           }
           return text;
         }
 
         let truncatedTitle = truncateText(items.title, 55);
-        console.log("Original title: ", items.title);
-            console.log("Truncated title: ", truncatedTitle);
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
@@ -472,25 +507,21 @@ shibaNews().then(data => {
                   </div>
               </div>
           </div>
-        `
-        getNewsContainer.innerHTML += itemNews
+        `;
+        getNewsContainer.innerHTML += itemNews;
         countNews++;
       }
-    })
-  })
-
+    });
+  });
 }
 
-if(path == '/listHighm.html'){
+if (path == "/listHighm.html" || path.endsWith('listHighm.html')) {
+  getFiveMBmkg().then((data) => {
+    const tbody = document.querySelector(".tbody");
 
-    getFiveMBmkg().then(data =>{
-        
-        const tbody = document.querySelector('.tbody');
-        
-
-        data.Infogempa.gempa.forEach((item, index) => {
-            let convert = parseInt(index);
-            const dataTable = `
+    data.Infogempa.gempa.forEach((item, index) => {
+      let convert = parseInt(index);
+      const dataTable = `
 
             <tr class="bg-white border-b 0 hover:bg-gray-50 ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
@@ -517,10 +548,8 @@ if(path == '/listHighm.html'){
             </tr>
             
             
-            `
-            tbody.innerHTML += dataTable;
-        })
-
-    })
-
+            `;
+      tbody.innerHTML += dataTable;
+    });
+  });
 }

@@ -1,184 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./public/images/icon/shibal.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/icon/shibal.png" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <title>SHIBA (Sistem Harian Informasi Bencana Alam)</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Navbar -->
     <nav class="bg-white border-gray-200 dark:bg-white sticky top-0 z-[9999]">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
-            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
-                <!-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">SHIBA</span> -->
-            </a>
-            <button data-collapse-toggle="navbar-default" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                aria-controls="navbar-default" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                <ul
-                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
-                    <li>
-                        <a href="/"
-                            class="block py-2 px-3 text-shiba bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                            aria-current="page">Gempa Bumi</a>
-                    </li>
-                    <li>
-                        <a href="earthquakeMonthly.html"
-                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Riwayat
-                            Gempa Bumi</a>
-                    </li>
-                    <li>
-                        <a href="newsList.html"
-                            class="block py-2 px-3 text-shiba  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0">Berita
-                            Terkini</a>
-                    </li>
-                </ul>
-            </div>
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6"
+      >
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <img src="./images/shiba.png" class="h-8" alt="SHIBA" />
+        </a>
+        <button
+          data-collapse-toggle="navbar-default"
+          type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          aria-controls="navbar-default"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg
+            class="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul
+            class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white"
+          >
+            <li>
+              <a
+                href="/"
+                class="block py-2 px-3 text-shiba active rounded md:bg-transparent md:text-blue-700 md:p-0"
+                aria-current="page"
+                >Gempa Bumi</a
+              >
+            </li>
+            <li>
+              <a
+                href="earthquakeMonthly.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
+                >Riwayat Gempa Bumi</a
+              >
+            </li>
+            <li>
+              <a
+                href="newsList.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
+                >Berita Terkini</a
+              >
+            </li>
+            <li>
+              <a
+                href="article.html"
+                class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
+                >Artikel</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Jumbotron -->
     <section
-        class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply">
-        <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-                <span class="hover:text-shiba cursor-pointer">SHI</span><span
-                    class="hover:text-shibaA cursor-pointer">BA</span>
-            </h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Menjadikan Informasi Bencana
-                sebagai Senjata Utama Anda, Mengubah Ketakutan menjadi Keberanian dengan Akses Tepat Waktu dan
-                Terpercaya.
-            </p>
-        </div>
+      class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply"
+    >
+      <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+        <h1
+          class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl"
+        >
+          <span class="hover:text-shiba cursor-pointer">SHI</span
+          ><span class="hover:text-shibaA cursor-pointer">BA</span>
+        </h1>
+        <p
+          class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48"
+        >
+          Menjadikan Informasi Bencana sebagai Senjata Utama Anda, Mengubah
+          Ketakutan menjadi Keberanian dengan Akses Tepat Waktu dan Terpercaya.
+        </p>
+      </div>
     </section>
 
     <!-- Card About Container -->
     <div class="relative flex justify-center -mt-24 mb-24 px-4 sm:px-6 lg:px-8">
-        <!-- Card About -->
-        <div class="flex flex-col p-11 md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5">
-            <div class="flex flex-col justify-between p-4 leading-normal">
-                <div class="flex">
-                    <h5 class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2">Tentang</h5>
-                    <img src="./images/shiba.png" alt="SHIBA" class="w-28 box-border">
-                </div>
+      <!-- Card About -->
+      <div
+        class="flex flex-col p-11 md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow w-full sm:w-4/5"
+      >
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <div class="flex">
+            <h5
+              class="text-2xl font-bold tracking-tight text-shiba leading-[2] inline-block pr-2"
+            >
+              Tentang
+            </h5>
+            <img src="./images/shiba.png" alt="SHIBA" class="w-28 box-border" />
+          </div>
 
-                <p class="mb-3 font-normal text-black pt-3">
-                    Sistem Harian Informasi Bencana Alam adalah sebuah platform informasi bencana alam secara harian.
-                    Platform ini didasarkan
-                    pada kebutuhan akan akses mudah dan cepat terhadap informasi terkini tentang bencana alam, yang
-                    menjadi
-                    krusial dalam upaya
-                    mitigasi dan penanggulangan bencana.
-                </p>
-            </div>
-            <img class="object-cover hidden md:inline-block rounded-t-lg h-auto w-64 rounded-none rounded-s-lg" src="./images/about.png" alt="EARTHQUAKE">
+          <p class="mb-3 font-normal text-black pt-3">
+            Sistem Harian Informasi Bencana Alam adalah sebuah platform
+            informasi bencana alam secara harian. Platform ini didasarkan pada
+            kebutuhan akan akses mudah dan cepat terhadap informasi terkini
+            tentang bencana alam, yang menjadi krusial dalam upaya mitigasi dan
+            penanggulangan bencana.
+          </p>
         </div>
+        <img
+          class="object-cover hidden md:inline-block rounded-t-lg h-auto w-64 rounded-none rounded-s-lg"
+          src="./images/about.png"
+          alt="EARTHQUAKE"
+        />
+      </div>
     </div>
 
     <!-- Map Full -->
-    <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru</h1>
-    <div class="flex flex-col md:flex-row items-center p-6 rounded-lg shadow-xl w-4/5 m-auto mb-24">
-        <div class="md:w-5/12 aspect-ratio-83-33 overflow-hidden rounded-lg image-map"></div>
-        <div class="md:w-7/12 mt-6 md:mt-0 md:ml-6">
-            <div id="map" class="h-60 rounded-lg w-full"></div>
-            <div class="information-daily mb-4 pt-4"></div>
-        </div>
+    <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">
+      Gempa Bumi Terbaru
+    </h1>
+    <div
+      class="flex flex-col md:flex-row items-center p-6 rounded-lg shadow-xl w-4/5 m-auto mb-24"
+    >
+      <div
+        class="md:w-5/12 aspect-ratio-83-33 overflow-hidden rounded-lg image-map"
+      ></div>
+      <div class="md:w-7/12 mt-6 md:mt-0 md:ml-6">
+        <div id="map" class="h-60 rounded-lg w-full"></div>
+        <div class="information-daily mb-4 pt-4"></div>
+      </div>
     </div>
 
     <!-- Container Daftar Gempa Bumi -->
-    <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 bg-backgroundGreyMain mb-12">
-        <!-- Title -->
-        <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Gempa Bumi <span class="month"></span></h2>
+    <div
+      class="max-w-full mx-auto p-6 md:py-8 md:px-24 bg-backgroundGreyMain mb-12"
+    >
+      <!-- Title -->
+      <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">
+        Gempa Bumi <span class="month"></span>
+      </h2>
 
-        <!-- Card Grid -->
-        <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 monthly-grid">
-            <!-- Card -->
-        </div>
+      <!-- Card Grid -->
+      <div
+        class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 monthly-grid"
+      >
+        <!-- Card -->
+      </div>
 
-        <!-- Button Lihat Lainnya -->
-        <div class="flex justify-center mt-8">
-            <a href="earthquakeMonthly.html"
-                class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto">Info Lengkap</a>
-        </div>
+      <!-- Button Lihat Lainnya -->
+      <div class="flex justify-center mt-8">
+        <a
+          href="earthquakeMonthly.html"
+          class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto"
+          >Info Lengkap</a
+        >
+      </div>
     </div>
 
     <!-- Container Gempa Bumi Dirasakan -->
     <div class="max-w-full mx-auto p-6 md:py-8 md:px-24 mb-12">
-        <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">Gempa Bumi Terbaru (Magnitudo 5.0+)</h1>
-    <!-- Daftar Gempa Bumi Dirasakan -->
-        <div class="grid gap-8 grid-cols-1 lg:grid-cols-2 justify-items-center fiveM">
-            
-        </div>
-        <div class="flex justify-center mt-8">
-            <a href="listHighm.html"
-                class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto">List Magnitudo 5.0+</a>
-        </div>
+      <h1 class="text-center mb-12 text-3xl font-extrabold text-shiba">
+        Gempa Bumi Terbaru (Magnitudo 5.0+)
+      </h1>
+      <!-- Daftar Gempa Bumi Dirasakan -->
+      <div
+        class="grid gap-8 grid-cols-1 lg:grid-cols-2 justify-items-center fiveM"
+      ></div>
+      <div class="flex justify-center mt-8">
+        <a
+          href="listHighm.html"
+          class="bg-bluebutton text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto"
+          >List Magnitudo 5.0+</a
+        >
+      </div>
     </div>
 
     <!-- Berita Terkini -->
     <div class="max-w-full mx-auto p-6 md:py-8">
-        <h2 class="text-3xl font-extrabold mb-8 text-center text-shiba">Berita Terkini</h2>
+      <h2 class="text-3xl font-extrabold mb-8 text-center text-shiba">
+        Berita Terkini
+      </h2>
 
-        <div class="w-[89%] m-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center news-shiba">
-            <!-- Card -->
+      <div
+        class="w-[89%] m-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center news-shiba"
+      >
+        <!-- Card -->
+      </div>
 
-        </div>
-
-        <div class="text-center mt-8">
-            <a href="newsList.html"
-                class="bg-bluebutton text-white px-4 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto">Berita Lainnya</a>
-        </div>
+      <div class="text-center mt-8">
+        <a
+          href="newsList.html"
+          class="bg-bluebutton text-white px-4 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 w-full text-center md:w-auto"
+          >Berita Lainnya</a
+        >
+      </div>
     </div>
 
     <!-- Footer -->
     <footer class="bg-footerbg">
-        <div class="mx-auto w-full max-w-screen-xl md:max-w-screen-2xl p-5 py-6 lg:py-8">
-            <div class="w-[90%] m-auto md:flex md:justify-between">
-                <div class="mb-6 md:mb-0 mr-3">
-                    <a href="https://flowbite.com/" class="m-auto mt-3">
-                        <img src="./images/footerShiba.png" class="h-[81px] w-[223px]" alt="SHIBA"/>
-                    </a>
-                </div>
-                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
-                    <div>
-                        <h2 class="mb-3 text-lg font-black text-shiba uppercase">Layanan Kami</h2>
-                        <ul class="text-shiba">
-                            <li class="mb-1">
-                                <a href="https://flowbite.com/" class="hover:underline">Gempa Bumi Terbaru</a>
-                            </li>
-                            <li class="mb-1">
-                                <a href="https://tailwindcss.com/" class="hover:underline">Daftar Gempa
-                                    Bumi(...Bulan)</a>
-                            </li>
-                            <li class="mb-1">
-                                <a href="https://tailwindcss.com/" class="hover:underline">Gempa Bumi Terbaru</a>
-                            </li>
-                            <li class="mb-1">
-                                <a href="https://tailwindcss.com/" class="hover:underline">Berita Terkini</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm text-shiba uppercase">Copyright by
-                            SHIBA 2024. All Right Reserved</h2>
-                    </div>
-                </div>
+      <div
+        class="mx-auto w-full max-w-screen-xl md:max-w-screen-2xl p-5 py-6 lg:py-8"
+      >
+        <div class="w-[90%] m-auto md:flex md:justify-between">
+          <div class="mb-6 md:mb-0 mr-3">
+            <a href="https://flowbite.com/" class="m-auto mt-3">
+              <img
+                src="./images/footerShiba.png"
+                class="h-[81px] w-[223px]"
+                alt="SHIBA"
+              />
+            </a>
+          </div>
+          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
+            <div>
+              <h2 class="mb-3 text-lg font-black text-shiba uppercase">
+                Layanan Kami
+              </h2>
+              <ul class="text-shiba">
+                <li class="mb-1">
+                  <a href="earthquakeMonthly.html" class="hover:underline"
+                    >Daftar Gempa Bumi</a
+                  >
+                </li>
+                <li class="mb-1">
+                  <a href="listHighm.html" class="hover:underline"
+                    >Daftar GempaBumi M5+</a
+                  >
+                </li>
+                <li class="mb-1">
+                  <a href="newsList.html" class="hover:underline"
+                    >Berita Terkini</a
+                  >
+                </li>
+              </ul>
             </div>
-            
+            <div>
+              <h2 class="mb-6 text-sm text-shiba uppercase">
+                Copyright by SHIBA 2024. All Right Reserved
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
     </footer>
-</body>
-
+  </body>
 </html>
