@@ -238,20 +238,20 @@ if(path == '/earthquakeMonthly.html'){
   const getTitleMonth = document.querySelector('.titleMonth');
   getTitleMonth.innerHTML = currentMonthName
 
-    function generateModal(earth, index){
+    function generateModal(earth, index) {
     return `
-    <div id="modal${index}" class="fixed inset-0 z-[9999] overflow-auto hidden md:overflow-hidden">
+    <div id="modal${index}" class="fixed inset-0 z-[9999] hidden overflow-hidden">
         <div class="flex items-center justify-center min-h-screen px-4 mt-8">
-            <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full overflow-auto">
+            <div class="relative bg-white rounded-lg shadow-lg w-4/5 md:w-4/5 lg:w-3/5 xl:w-2/5 overflow-auto">
                 <div class="flex justify-between items-center p-4 border-b">
                     <h3 class="text-xl font-semibold">Detail Gempa Bumi</h3>
                     <button onclick="closeModal('modal${index}')" class="text-gray-400 hover:text-gray-600">
                         <span class="text-xl">&times;</span>
                     </button>
                 </div>
-                <div class="p-4 flex flex-col md:flex-row">
+                <div class="p-4 flex flex-col md:flex-row h-80 md:h-auto">
                     <div class="md:w-2/3">
-                        <ul class="list-disc pl-5">
+                        <ul class="list-disc pl-5 md:pl-14 md:mt-10">
                             <li>Tanggal : ${earth.Tanggal}</li>
                             <li>Jam : ${earth.Jam}</li>
                             <li>DateTime : ${earth.DateTime}</li>
@@ -265,20 +265,15 @@ if(path == '/earthquakeMonthly.html'){
                             <li>Dirasakan : ${earth.Dirasakan}</li>
                         </ul>
                     </div>
-                    <div class="mt-4 md:mt-0 md:ml-4 md:w-1/3 flex justify-center">
-                        <img src="https://data.bmkg.go.id/DataMKG/TEWS/${earth.Shakemap}" alt="Earthquake Image" class="rounded-lg w-full h-auto max-h-64 object-cover">
+                    <div class="mt-4 md:mt-0 md:mr-24 md:w-1/3 flex justify-center">
+                        <img src="https://data.bmkg.go.id/DataMKG/TEWS/${earth.Shakemap}" alt="Earthquake Image" class="rounded-lg w-full h-full object-cover">
                     </div>
-                </div>
-                <div class="flex justify-end p-4 border-t">
-                    <button onclick="closeModal('modal${index}')" class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
-                        Close
-                    </button>
                 </div>
             </div>
         </div>
     </div>
     `;
-  }
+}
 
   // CONTENT MONTLY EARTHQUAKE
   getDailyShiba().then(month => {
@@ -497,10 +492,13 @@ if(path == '/listHighm.html'){
             let convert = parseInt(index);
             const dataTable = `
 
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr class="bg-white border-b 0 hover:bg-gray-50 ">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                     ${convert + 1}
                 </th>
+                <td class="px-6 py-4">
+                    ${item.Tanggal + " " + item.Jam}
+                </td>
                 <td class="px-6 py-4">
                     ${item.Lintang}
                 </td>
@@ -510,10 +508,10 @@ if(path == '/listHighm.html'){
                 <td class="px-6 py-4">
                     ${item.Magnitude}
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-4 text-left">
                     ${item.Kedalaman}
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-4 text-left">
                     ${item.Wilayah}
                 </td>
             </tr>
