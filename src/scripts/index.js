@@ -3,6 +3,8 @@ import "../styles/style.css";
 import "flowbite";
 import "flowbite/dist/flowbite.min.js";
 import "leaflet";
+import 'lazysizes';
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 import {
   getEarthquakeData,
   getDailyBmkg,
@@ -116,7 +118,7 @@ if (path == "/" || path.endsWith("index.html")) {
         let getCardGrid = document.querySelector(".monthly-grid");
         let createCard = `
               <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                  <img class="w-full h-48 object-cover" src="${imageUrl}" alt="${cityName}">
+                  <img class="w-full h-48 object-cover lazyload" data-src="${imageUrl}" alt="${cityName}">
                   <div class="p-6">
                       <h3 class="text-xl font-bold mb-2">${cityName}</h3>
                       <p class="text-gray-700">${item.Tanggal} - ${item.Jam}</p>
@@ -161,7 +163,7 @@ if (path == "/" || path.endsWith("index.html")) {
 
         <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow lg:max-w-screen-md hover:bg-gray-100">
 
-          <img class="object-cover w-full h-52 rounded-l-lg" src="./images/p${countFive}.png" alt="Image">
+          <img class="object-cover w-full h-52 rounded-l-lg lazyload" data-src="./images/p${countFive}.png" alt="Image">
 
           <div class="flex flex-col justify-between p-4 leading-normal">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${cityName}</h5>
@@ -227,7 +229,7 @@ if (path == "/" || path.endsWith("index.html")) {
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg" src="${items.images.thumbnailProxied}" alt="Image">
+              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
               <div class="p-5">
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
                   <p class="mb-3 font-semibold text-black">${items.snippet}</p>
@@ -441,7 +443,7 @@ if (
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg" src="${items.images.thumbnailProxied}" alt="Image">
+              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
               <div class="p-5">
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
                   <p class="mb-3 font-semibold text-black">${items.snippet}</p>
@@ -513,7 +515,7 @@ if (path == "/newsList.html" || path.endsWith("newsList.html")) {
 
         let itemNews = `
           <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg" src="${items.images.thumbnailProxied}" alt="Image">
+              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
               <div class="p-5">
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
                   <p class="mb-3 font-semibold text-black">${items.snippet}</p>

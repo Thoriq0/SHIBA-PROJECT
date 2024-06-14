@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "flowbite": "^2.3.0",
+    "lazysizes": "^5.3.2",
     "leaflet": "^1.9.4"
   }
 }
