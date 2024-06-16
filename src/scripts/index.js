@@ -3,8 +3,8 @@ import "../styles/style.css";
 import "flowbite";
 import "flowbite/dist/flowbite.min.js";
 import "leaflet";
-import 'lazysizes';
-import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+import "lazysizes";
+import "lazysizes/plugins/parent-fit/ls.parent-fit";
 import {
   getEarthquakeData,
   getDailyBmkg,
@@ -20,13 +20,16 @@ import {
 } from "./leaflet.js";
 import { processDaily, pushNews } from "./dataProcessing.js";
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').then(registration => {
-      // console.log('SW registered: ', registration);
-    }).catch(registrationError => {
-      // console.log('SW registration failed: ', registrationError);
-    });
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        // console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        // console.log('SW registration failed: ', registrationError);
+      });
   });
 }
 
@@ -264,7 +267,8 @@ if (path == "/" || path.endsWith("index.html")) {
 // MONTLY EARTHQUAKE
 if (
   path == "/earthquakeMonthly.html" ||
-  path.endsWith("earthquakeMonthly.html")
+  path.endsWith("earthquakeMonthly.html") ||
+  path == "/earthquakeMonthly"
 ) {
   pushNews();
   let body = document.querySelector("body");
@@ -475,7 +479,11 @@ if (
   });
 }
 
-if (path == "/newsList.html" || path.endsWith("newsList.html")) {
+if (
+  path == "/newsList.html" ||
+  path.endsWith("newsList.html") ||
+  path == "/newsList"
+) {
   let body = document.querySelector("body");
   body.style.overflow = "hidden";
   let load = document.querySelector(".conload");
@@ -547,7 +555,11 @@ if (path == "/newsList.html" || path.endsWith("newsList.html")) {
   });
 }
 
-if (path == "/listHighm.html" || path.endsWith("listHighm.html")) {
+if (
+  path == "/listHighm.html" ||
+  path.endsWith("listHighm.html") ||
+  path == "/listHighm"
+) {
   getFiveMBmkg().then((data) => {
     const tbody = document.querySelector(".tbody");
 
