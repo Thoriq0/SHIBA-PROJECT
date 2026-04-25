@@ -1,7 +1,12 @@
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+
+const dotenvPath = fs.existsSync(path.resolve(__dirname, '.env'))
+  ? path.resolve(__dirname, '.env')
+  : path.resolve(__dirname, '.env.example');
 
 module.exports = {
   entry: {
@@ -50,6 +55,10 @@ module.exports = {
         },
       ],
     }),
-    new Dotenv(),
+    new Dotenv({
+      path: dotenvPath,
+      systemvars: true,
+      silent: true,
+    }),
   ],
 };
