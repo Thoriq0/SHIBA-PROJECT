@@ -1,12 +1,77 @@
 const path = require('path');
 const fs = require('fs');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 
-const dotenvPath = fs.existsSync(path.resolve(__dirname, '.env'))
-  ? path.resolve(__dirname, '.env')
-  : path.resolve(__dirname, '.env.example');
+function parseEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return {};
+  }
+
+  return fs
+    .readFileSync(filePath, 'utf8')
+    .split(/\r?\n/)
+    .reduce((accumulator, line) => {
+      const trimmedLine = line.trim();
+
+      if (!trimmedLine || trimmedLine.startsWith('#')) {
+        return accumulator;
+      }
+
+      const separatorIndex = trimmedLine.indexOf('=');
+      if (separatorIndex === -1) {
+        return accumulator;
+      }
+
+      const key = trimmedLine.slice(0, separatorIndex).trim();
+      let value = trimmedLine.slice(separatorIndex + 1).trim();
+
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
+        value = value.slice(1, -1);
+      } else {
+        value = value.replace(/\s+#.*$/, '').trim();
+      }
+
+      value = value.replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+      accumulator[key] = value;
+      return accumulator;
+    }, {});
+}
+
+const fileEnv = {
+  ...parseEnvFile(path.resolve(__dirname, '.env.example')),
+  ...parseEnvFile(path.resolve(__dirname, '.env')),
+};
+
+const mergedEnv = {
+  ...fileEnv,
+  ...Object.fromEntries(
+    Object.entries(process.env).filter(([, value]) => typeof value === 'string')
+  ),
+};
+
+const clientEnvKeys = [
+  'API_DAILYBMKG',
+  'API_DALYBMKG',
+  'API_LISTBMKG',
+  'API_MFIVEBMKG',
+  'API_ALLPARAMSHIBA',
+  'API_DAILYSHIBA',
+  'API_LISTSHIBA',
+  'API_MFIVESHIBA',
+  'API_NEWSHIBA',
+  'API_NEWS',
+  'NEWS_KEY',
+];
+
+const defineEnv = clientEnvKeys.reduce((accumulator, key) => {
+  accumulator[`process.env.${key}`] = JSON.stringify(mergedEnv[key] || '');
+  return accumulator;
+}, {});
 
 module.exports = {
   entry: {
@@ -55,10 +120,6 @@ module.exports = {
         },
       ],
     }),
-    new Dotenv({
-      path: dotenvPath,
-      systemvars: true,
-      silent: true,
-    }),
+    new webpack.DefinePlugin(defineEnv),
   ],
 };
