@@ -177,9 +177,11 @@ function appendNewsCards(container, items, maxItems) {
   items.slice(0, maxItems).forEach((item) => {
     const formattedDate = formatNewsDate(item?.timestamp);
     const truncatedTitle = truncateText(item?.title, 55);
-    const imageUrl =
-      item?.images?.thumbnail ||
-      item?.images?.thumbnailProxied ||
+    const proxiedImageUrl = item?.images?.thumbnailProxied || "";
+    const thumbnailImageUrl = item?.images?.thumbnail || "";
+    const imageUrl = proxiedImageUrl || thumbnailImageUrl || "./images/shiba.png";
+    const fallbackImageUrl =
+      (imageUrl === proxiedImageUrl ? thumbnailImageUrl : proxiedImageUrl) ||
       "./images/shiba.png";
     const snippet = item?.snippet || "Ringkasan berita tidak tersedia.";
     const newsUrl = item?.newsUrl || "#";
@@ -189,9 +191,10 @@ function appendNewsCards(container, items, maxItems) {
           <img
               class="w-full max-h-64 rounded-t-lg object-cover"
               src="${imageUrl}"
+              data-fallback-src="${fallbackImageUrl}"
               loading="lazy"
               alt="${truncatedTitle || "Berita SHIBA"}"
-              onerror="this.onerror=null;this.src='./images/shiba.png';">
+              onerror="if (this.dataset.retryDone === 'true') { this.onerror=null; this.src='./images/shiba.png'; return; } this.dataset.retryDone='true'; this.src=this.dataset.fallbackSrc || './images/shiba.png';">
           <div class="p-5">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle || "Judul tidak tersedia"}</h5>
               <p class="mb-3 font-semibold text-black">${snippet}</p>
