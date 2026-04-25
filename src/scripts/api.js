@@ -1,5 +1,5 @@
 // API ENDPOINT BMKG
-const bmkgDaily = process.env.API_DALYBMKG;
+const bmkgDaily = process.env.API_DAILYBMKG || process.env.API_DALYBMKG;
 // const bmkgList = process.env.API_LISTBMKG;
 const bmkgFiveM = process.env.API_MFIVEBMKG;
 
@@ -10,110 +10,95 @@ const shibaList = process.env.API_LISTSHIBA;
 const shibaFiveM = process.env.API_MFIVESHIBA;
 
 // NEWS SHIBA
-const news = process.env.API_NEWS;
 const newShiba = process.env.API_NEWSHIBA;
 
-export async function getAllParamShiba() {
-  try {
-    const response = await fetch(allSource);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
+function buildFirebasePath(baseUrl, relativePath = "") {
+  if (!baseUrl) {
+    return null;
   }
+
+  const trimmedBaseUrl = baseUrl.trim();
+  const withoutJsonSuffix = trimmedBaseUrl.replace(/\.json$/i, "");
+  const normalizedPath = relativePath.replace(/^\/+|\/+$/g, "");
+
+  return normalizedPath
+    ? `${withoutJsonSuffix}/${normalizedPath}.json`
+    : `${withoutJsonSuffix}.json`;
+}
+
+async function fetchJson(url, sourceName) {
+  if (!url) {
+    console.log(`Missing endpoint for ${sourceName}`);
+    return null;
+  }
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log(`Something Wrong in ${sourceName}: ${error.message}`);
+    return null;
+  }
+}
+
+export async function getAllParamShiba() {
+  return fetchJson(allSource, "getAllParamShiba");
 }
 
 export async function getDailyShiba() {
-  try {
-    const response = await fetch(shibaDaily);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(shibaDaily, "getDailyShiba");
 }
 
 export async function getListShiba() {
-  try {
-    const response = await fetch(shibaList);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(shibaList, "getListShiba");
 }
 
 export async function getFiveMinuteShiba() {
-  try {
-    const response = await fetch(shibaFiveM);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(shibaFiveM, "getFiveMinuteShiba");
 }
 
 // BMKG
 
 export async function getDailyBmkg() {
-  try {
-    const response = await fetch(bmkgDaily);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(bmkgDaily, "getDailyBmkg");
 }
 
 export async function getFiveMBmkg() {
-  try {
-    const response = await fetch(bmkgFiveM);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(bmkgFiveM, "getFiveMBmkg");
 }
-
-// NEWS
-// export async function getNews(){
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'x-rapidapi-key': process.env.NEWS_KEY,
-//       'x-rapidapi-host': 'google-news13.p.rapidapi.com'
-//     }
-//   }
-
-//   try{
-//     const response = await fetch(news, options);
-//     const data = await response.json();
-//     return data;
-//   } catch(error) {
-//     console.log('Something Wrong ' + error.message);
-//   }
-// }
 
 export async function shibaNews() {
-  try {
-    const response = await fetch(newShiba);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Something Wrong " + error.message);
-  }
+  return fetchJson(
+    buildFirebasePath(newShiba, "latest/items"),
+    "shibaNews"
+  );
 }
 
-// SHOWNG FOR DATA
-export async function getEarthquakeData() {
-  try {
-    const response = await fetch(bmkgDaily);
-    if (!response.ok) {
-      throw new Error("Something Problem With Response");
-    }
-    const data = await response.json();
-    return data.Infogempa.gempa.Coordinates;
-  } catch (error) {
-    alert("There was a problem with the fetch operation: " + error.message);
+export async function shibaNewsByMonth() {
+  const latestData = await fetchJson(
+    buildFirebasePath(newShiba, "latest"),
+    "shibaNewsLatest"
+  );
+
+  const monthKey = latestData?.monthKey;
+
+  if (!monthKey) {
+    return latestData?.items ?? null;
   }
+
+  return fetchJson(
+    buildFirebasePath(newShiba, `byMonth/${monthKey}/items`),
+    "shibaNewsByMonth"
+  );
+}
+
+// SHOWING FOR DATA
+export async function getEarthquakeData() {
+  const data = await getDailyBmkg();
+  return data?.Infogempa?.gempa?.Coordinates ?? null;
 }

@@ -4,16 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="./images/shiba.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/public/images/icon/icon-144x144.png" />
+    <link rel="apple-touch-icon" href="/images/icon/icon-144x144.png" />
     <link rel="manifest" href="manifest.json" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <script>
+      document.documentElement.classList.add("startup-loading");
+    </script>
+    <style>
+      html.startup-loading body {
+        overflow: hidden;
+      }
+
+      html.startup-loading body > :not(.startup-loader) {
+        visibility: hidden;
+      }
+
+      .startup-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+      }
+
+      html.startup-loading .startup-loader {
+        display: flex;
+      }
+
+      .startup-loader__dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 9999px;
+        background: #457eb8;
+        box-shadow: 28px 0 0 #dea01e, -28px 0 0 rgba(69, 126, 184, 0.25);
+        animation: startup-bounce 0.9s infinite ease-in-out;
+      }
+
+      @keyframes startup-bounce {
+        0%, 100% { transform: scale(0.92); opacity: 0.9; }
+        50% { transform: scale(1.08); opacity: 1; }
+      }
+    </style>
     <title>SHIBA (Sistem Harian Informasi Bencana Alam)</title>
   </head>
 
   <body>
+    <div class="startup-loader" aria-hidden="true">
+      <div class="startup-loader__dot"></div>
+    </div>
     <!-- LOADER -->
     <div
       class="relative z-[9999] bg-white w-[100%] h-screen items-center hidden conload"
@@ -72,21 +111,21 @@
             </li>
             <li>
               <a
-                href="earthquakeMonthly"
+                href="earthquakeMonthly.html"
                 class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
                 >Riwayat Gempa Bumi</a
               >
             </li>
             <li>
               <a
-                href="newsList"
+                href="newsList.html"
                 class="block py-2 px-3 text-shiba active rounded md:bg-transparent md:text-blue-700 md:border-0 md:p-0"
                 >Berita Terkini</a
               >
             </li>
             <li>
               <a
-                href="article"
+                href="article.html"
                 class="block py-2 px-3 text-shiba rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-500 md:p-0"
                 >Artikel</a
               >
@@ -98,7 +137,8 @@
 
     <!-- Jumbotron -->
     <section
-      class="relative bg-center bg-cover bg-no-repeat bg-[url('https://firebasestorage.googleapis.com/v0/b/shiba-capstone-94834.appspot.com/o/jumbotron.jpg?alt=media&token=0028eb18-81f7-477f-a5fa-bab73dfd3b68')] bg-gray-700 bg-blend-multiply h-48"
+      class="relative bg-center bg-cover bg-no-repeat h-48"
+      style="background-image: linear-gradient(rgba(55, 65, 81, 0.72), rgba(55, 65, 81, 0.72)), url('./images/jumbotron.jpg');"
     >
       <div class="px-4 mx-auto max-w-screen-xl text-left py-8">
         <h1

@@ -11,6 +11,7 @@ import {
   getDailyShiba,
   getFiveMBmkg,
   shibaNews,
+  shibaNewsByMonth,
 } from "./api.js";
 import {
   currentInitializeMap,
@@ -18,57 +19,356 @@ import {
   fiveMInitializeMap,
   fiveMAddMarkerToMap,
 } from "./leaflet.js";
-import { processDaily, pushNews } from "./dataProcessing.js";
 
-if ("serviceWorker" in navigator) {
+const path = window.location.pathname;
+const monthNames = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
+let pageLoaderHandled = false;
+
+function dismissStartupLoader() {
+  document.documentElement.classList.remove("startup-loading");
+  const startupLoader = document.querySelector(".startup-loader");
+
+  if (startupLoader) {
+    startupLoader.setAttribute("aria-hidden", "true");
+  }
+}
+
+function matchesPath(...candidates) {
+  return candidates.some((candidate) => {
+    if (candidate === "/") {
+      return path === "/" || path.endsWith("index.html");
+    }
+
+    return path === candidate || path.endsWith(candidate.replace(/^\//, ""));
+  });
+}
+
+function showPageLoader() {
+  pageLoaderHandled = true;
+  dismissStartupLoader();
+
+  const body = document.querySelector("body");
+  const load = document.querySelector(".conload");
+
+  if (body) {
+    body.style.overflow = "hidden";
+  }
+
+  if (load) {
+    load.style.display = "flex";
+  }
+}
+
+function hidePageLoader() {
+  dismissStartupLoader();
+
+  const body = document.querySelector("body");
+  const load = document.querySelector(".conload");
+
+  if (load) {
+    load.style.display = "none";
+  }
+
+  if (body) {
+    body.style.overflow = "auto";
+  }
+}
+
+function getPrimaryArray(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (!data || typeof data !== "object") {
+    return [];
+  }
+
+  if (data.items && typeof data.items === "object") {
+    return Array.isArray(data.items) ? data.items : Object.values(data.items);
+  }
+
+  const firstValue = Object.values(data)[0];
+
+  if (Array.isArray(firstValue)) {
+    return firstValue;
+  }
+
+  return Object.values(data).filter(
+    (item) => item && typeof item === "object" && !Array.isArray(item)
+  );
+}
+
+function truncateText(text, maxLength) {
+  const safeText = typeof text === "string" ? text : "";
+
+  if (safeText.length > maxLength) {
+    return `${safeText.substring(0, maxLength)}...`;
+  }
+
+  return safeText;
+}
+
+function formatNewsDate(timestamp) {
+  const convertedTime = Number.parseInt(timestamp, 10);
+  const date = new Date(convertedTime);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Tanggal tidak tersedia";
+  }
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const dayOfWeek = date.getDay();
+  const daysOfWeek = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+
+  return `${daysOfWeek[dayOfWeek]}, ${day < 10 ? "0" + day : day}-${
+    month < 10 ? "0" + month : month
+  }-${year}`;
+}
+
+function getCityNameLabel(city, includePreviousWord = true) {
+  if (typeof city !== "string" || city.trim() === "") {
+    return "Lokasi tidak tersedia";
+  }
+
+  const words = city.trim().split(/\s+/);
+  let cityName = words[words.length - 1] || "";
+
+  if (cityName.includes("-")) {
+    cityName = cityName.replace("-", " ");
+  }
+
+  if (!includePreviousWord || words.length < 2) {
+    return cityName;
+  }
+
+  const lastWord = words[words.length - 2];
+  return `${lastWord} ${cityName}`.trim();
+}
+
+function appendNewsCards(container, items, maxItems) {
+  if (!container || !Array.isArray(items)) {
+    return;
+  }
+
+  items.slice(0, maxItems).forEach((item) => {
+    const formattedDate = formatNewsDate(item?.timestamp);
+    const truncatedTitle = truncateText(item?.title, 55);
+    const imageUrl =
+      item?.images?.thumbnail ||
+      item?.images?.thumbnailProxied ||
+      "./images/shiba.png";
+    const snippet = item?.snippet || "Ringkasan berita tidak tersedia.";
+    const newsUrl = item?.newsUrl || "#";
+
+    const itemNews = `
+      <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
+          <img
+              class="w-full max-h-64 rounded-t-lg object-cover"
+              src="${imageUrl}"
+              loading="lazy"
+              alt="${truncatedTitle || "Berita SHIBA"}"
+              onerror="this.onerror=null;this.src='./images/shiba.png';">
+          <div class="p-5">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle || "Judul tidak tersedia"}</h5>
+              <p class="mb-3 font-semibold text-black">${snippet}</p>
+              <a href="${newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Baca Selengkapnya >>
+              </a>
+              <div class="border-t-2 border-t-gray-400 mt-4">
+                  <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
+              </div>
+          </div>
+      </div>
+    `;
+
+    container.innerHTML += itemNews;
+  });
+}
+
+function getNewsEmptyStateConfig() {
+  if (matchesPath("/newsList", "/newsList.html")) {
+    return {
+      eyebrow: "Arsip Berita Belum Tersedia",
+      title: "Belum ada berita yang bisa ditampilkan saat ini",
+      description:
+        "Data berita dari SHIBA belum masuk atau masih disinkronkan. Coba buka lagi beberapa saat, atau lanjut lihat data gempa terbaru yang tetap tersedia.",
+      actionHref: "/",
+      actionLabel: "Lihat Gempa Terkini",
+    };
+  }
+
+  return {
+    eyebrow: "Berita Sedang Disiapkan",
+    title: "Update berita terbaru belum tersedia dulu",
+    description:
+      "Bagian ini akan terisi otomatis setelah sinkronisasi berita selesai. Sementara itu, kamu masih bisa melihat data gempa dan riwayat kejadian terbaru.",
+    actionHref: "/earthquakeMonthly.html",
+    actionLabel: "Buka Riwayat Gempa",
+  };
+}
+
+function renderNewsEmptyState(container) {
+  if (!container) {
+    return;
+  }
+
+  const emptyState = getNewsEmptyStateConfig();
+
+  container.innerHTML = `
+    <div class="w-full sm:col-span-2 lg:col-span-3">
+      <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-sky-50 p-8 shadow-lg shadow-slate-200/70 md:p-10">
+        <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-shiba/10 blur-2xl"></div>
+        <div class="absolute -bottom-10 left-10 h-28 w-28 rounded-full bg-shibaA/10 blur-2xl"></div>
+        <div class="relative mx-auto max-w-2xl text-center">
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md shadow-slate-200">
+            <svg class="h-8 w-8 text-shiba" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 7.5h14M5 12h9M5 16.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M19 6v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.35"/>
+            </svg>
+          </div>
+          <p class="mt-6 text-xs font-bold uppercase tracking-[0.28em] text-shiba">
+            ${emptyState.eyebrow}
+          </p>
+          <h3 class="mt-3 text-2xl font-extrabold text-slate-900 md:text-3xl">
+            ${emptyState.title}
+          </h3>
+          <p class="mt-4 text-base leading-7 text-slate-600">
+            ${emptyState.description}
+          </p>
+          <div class="mt-8 flex justify-center">
+            <a href="${emptyState.actionHref}" class="rounded-full bg-bluebutton px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700">
+              ${emptyState.actionLabel}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderNewsSection(selector, newsPromise, maxItems, options = {}) {
+  return newsPromise.then((data) => {
+    const container = document.querySelector(selector);
+    const moreLink = options.moreSelector
+      ? document.querySelector(options.moreSelector)
+      : null;
+    const items = getPrimaryArray(data);
+
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML = "";
+
+    if (moreLink) {
+      moreLink.classList.add("hidden");
+    }
+
+    if (items.length === 0) {
+      renderNewsEmptyState(container);
+      return;
+    }
+
+    appendNewsCards(container, items, maxItems);
+
+    if (moreLink) {
+      moreLink.classList.remove("hidden");
+    }
+  });
+}
+
+window.openModal = (modalId) => {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.remove("hidden");
+  }
+};
+
+window.closeModal = (modalId) => {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add("hidden");
+  }
+};
+
+const isLocalDevelopment =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+if ("serviceWorker" in navigator && !isLocalDevelopment) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/service-worker.js")
-      .then((registration) => {
-        // console.log('SW registered: ', registration);
+      .then(() => {
+        // Service worker registered.
       })
-      .catch((registrationError) => {
-        // console.log('SW registration failed: ', registrationError);
+      .catch(() => {
+        // Service worker registration failed.
       });
   });
 }
 
+queueMicrotask(() => {
+  if (!pageLoaderHandled) {
+    dismissStartupLoader();
+  }
+});
+
 // HOMEPAGE
-const path = window.location.pathname;
-if (path == "/" || path.endsWith("index.html")) {
-  processDaily();
-  pushNews();
+if (matchesPath("/")) {
+  showPageLoader();
 
-  let body = document.querySelector("body");
-  body.style.overflow = "hidden";
-  let load = document.querySelector(".conload");
-  load.style.display = "flex";
+  const dailyShowPromise = getDailyBmkg().then((data) => {
+    if (!data?.Infogempa?.gempa) {
+      return;
+    }
 
-  // DAILY SHOW
-  getDailyBmkg().then((data) => {
-    // console.log(data);
-
-    // LEFT SIDE (IMAGE)
     const getContainer = document.querySelector(".image-map");
-    const image = `
-    <img src="https://data.bmkg.go.id/DataMKG/TEWS/${data.Infogempa.gempa.Shakemap}" alt="shakemap" class="w-full h-full object-cover">
-    `;
-    getContainer.innerHTML += image;
 
-    // RIGHT SIDE (INFORMATION)
+    if (getContainer && data.Infogempa.gempa.Shakemap) {
+      const image = `
+      <img src="https://data.bmkg.go.id/DataMKG/TEWS/${data.Infogempa.gempa.Shakemap}" alt="shakemap" class="w-full h-full object-cover">
+      `;
+      getContainer.innerHTML += image;
+    }
+
     const getC = document.querySelector(".information-daily");
 
-    const showInformation = `
-    <p>
-      Pada Tanggal ${data.Infogempa.gempa.Tanggal} pukul ${data.Infogempa.gempa.Jam}, Terjadi gempa bumi
-      di wilayah ${data.Infogempa.gempa.Wilayah}. Gempa tersebut memiliki kekuatan Magnitudo ${data.Infogempa.gempa.Magnitude} dengan kedalaman ${data.Infogempa.gempa.Kedalaman}
-    </p>
-    `;
-    getC.innerHTML += showInformation;
+    if (getC) {
+      const showInformation = `
+      <p>
+        Pada Tanggal ${data.Infogempa.gempa.Tanggal} pukul ${data.Infogempa.gempa.Jam}, Terjadi gempa bumi
+        di wilayah ${data.Infogempa.gempa.Wilayah}. Gempa tersebut memiliki kekuatan Magnitudo ${data.Infogempa.gempa.Magnitude} dengan kedalaman ${data.Infogempa.gempa.Kedalaman}
+      </p>
+      `;
+      getC.innerHTML += showInformation;
+    }
   });
 
-  // DAILY MAP
-  async function main() {
+  async function renderCurrentMap() {
     const map = currentInitializeMap();
     const coordinates = await getEarthquakeData();
     if (coordinates) {
@@ -76,60 +376,35 @@ if (path == "/" || path.endsWith("index.html")) {
       currentAddMarkerToMap(map, lat, lon);
     }
   }
-  main();
+  const currentMapPromise = renderCurrentMap();
 
-  // Get Data For Showing to index
-  getDailyShiba().then((data) => {
-    // Convert Shiba Daily To Array
-    let shibaArray = Object.values(data).reverse();
-
+  const dailyShibaPromise = getDailyShiba().then((data) => {
+    const shibaArray = Object.values(data ?? {}).reverse();
     let cardCount = 0;
 
-    // Get current date and month
     const currentDate = new Date();
-    const monthNames = [
-      "Januari",
-      "Februari",
-      "Marert",
-      "April",
-      "May",
-      "Juni",
-      "Juli",
-      "Agustis",
-      "September",
-      "Oktober",
-      "November",
-      "Desember",
-    ];
     const currentMonthName = monthNames[currentDate.getMonth()];
-
     const getTitle = document.querySelector(".month");
-    getTitle.innerHTML = currentMonthName;
+
+    if (getTitle) {
+      getTitle.innerHTML = currentMonthName;
+    }
 
     shibaArray.forEach((item) => {
-      let city = [{ Wilayah: item.Wilayah }];
-
-      function getCityName(city) {
-        const word = city.split(" ");
-        let cityName = word[word.length - 1];
-        if (cityName.includes("-")) {
-          cityName = cityName.replace("-", " ");
-        }
-        const lastWord = word[word.length - 2];
-        return lastWord + " " + cityName;
-      }
-
-      let cityName = city.map((earthQuake) => getCityName(earthQuake.Wilayah));
+      const cityName = getCityNameLabel(item?.Wilayah);
 
       if (cardCount < 4) {
-        // Check if cityName contains "LAUT" or "laut"
         let imageUrl = "./images/darat.jpg";
-        if (cityName.some((name) => name.toUpperCase().includes("LAUT"))) {
+        if (cityName.toUpperCase().includes("LAUT")) {
           imageUrl = "./images/laut.jpg";
         }
 
-        let getCardGrid = document.querySelector(".monthly-grid");
-        let createCard = `
+        const getCardGrid = document.querySelector(".monthly-grid");
+        if (!getCardGrid) {
+          return;
+        }
+
+        const createCard = `
               <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                   <img class="w-full h-48 object-cover lazyload" data-src="${imageUrl}" alt="${cityName}">
                   <div class="p-6">
@@ -143,41 +418,29 @@ if (path == "/" || path.endsWith("index.html")) {
         cardCount++;
       }
     });
-    // console.log(shibaArray);
   });
 
-  // DAILY FVE
-  getFiveMBmkg().then((data) => {
-    let fiveM = data.Infogempa.gempa;
+  const fiveMPromise = getFiveMBmkg().then((data) => {
+    const fiveM = data?.Infogempa?.gempa;
 
-    let getFiveMContainer = document.querySelector(".fiveM");
+    if (!Array.isArray(fiveM)) {
+      return;
+    }
+
+    const getFiveMContainer = document.querySelector(".fiveM");
+    if (!getFiveMContainer) {
+      return;
+    }
 
     let countFive = 0;
 
-    fiveM.forEach((earth, index) => {
-      let city = [{ Wilayah: earth.Wilayah }];
-
-      function getCityName(city) {
-        const word = city.split(" ");
-        let cityName = word[word.length - 1];
-        if (cityName.includes("-")) {
-          cityName = cityName.replace("-", " ");
-        }
-        return cityName;
-      }
-
-      let cityName = city.map((earthQuake) => getCityName(earthQuake.Wilayah));
+    fiveM.forEach((earth) => {
+      const cityName = getCityNameLabel(earth?.Wilayah, false);
 
       if (countFive < 4) {
-        let itemFive = `
-
-
-        
-
+        const itemFive = `
         <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-lg shadow lg:max-w-screen-md hover:bg-gray-100">
-
           <img class="object-cover w-full h-52 rounded-l-lg lazyload" data-src="./images/p${countFive}.png" alt="Image">
-
           <div class="flex flex-col justify-between p-4 leading-normal">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${cityName}</h5>
               <p class="mb-3 font-normal text-black">
@@ -185,11 +448,7 @@ if (path == "/" || path.endsWith("index.html")) {
                   Dengan kekuatan Magnitudo ${earth.Magnitude} dan status ${earth.Potensi}
               </p>
           </div>
-
       </div>
-
-
-
           `;
         getFiveMContainer.innerHTML += itemFive;
         countFive++;
@@ -197,123 +456,54 @@ if (path == "/" || path.endsWith("index.html")) {
     });
   });
 
-  // FOR NEWS
-  shibaNews().then((data) => {
-    const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector(".news-shiba");
-
-    let countNews = 0;
-
-    firstValue.forEach((items, index) => {
-      if (countNews < 3) {
-        let timestamp = items.timestamp;
-        let convert = parseInt(timestamp);
-        let date = new Date(convert);
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let dayOfWeek = date.getDay();
-
-        let daysOfWeek = [
-          "Minggu",
-          "Senin",
-          "Selasa",
-          "Rabu",
-          "Kamis",
-          "Jumat",
-          "Sabtu",
-        ];
-        let dayName = daysOfWeek[dayOfWeek];
-
-        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
-          month < 10 ? "0" + month : month
-        }-${year}`;
-
-        function truncateText(text, maxLength) {
-          if (text.length > maxLength) {
-            return text.substring(0, maxLength) + "...";
-          }
-          return text;
-        }
-
-        let truncatedTitle = truncateText(items.title, 55);
-
-        let itemNews = `
-          <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
-              <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
-                  <p class="mb-3 font-semibold text-black">${items.snippet}</p>
-                  <a href="${items.newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank">
-                      Baca Selengkapnya >>
-                  </a>
-                  <div class="border-t-2 border-t-gray-400 mt-4">
-                      <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
-                  </div>
-              </div>
-          </div>
-        `;
-        getNewsContainer.innerHTML += itemNews;
-        countNews++;
-      }
-    });
-    load.style.display = "none";
-    body.style.overflow = "auto";
+  const newsPromise = renderNewsSection(".news-shiba", shibaNews(), 3, {
+    moreSelector: ".news-more-link",
   });
+
+  Promise.allSettled([
+    dailyShowPromise,
+    currentMapPromise,
+    dailyShibaPromise,
+    fiveMPromise,
+    newsPromise,
+  ]).finally(hidePageLoader);
 }
 
 // MONTLY EARTHQUAKE
-if (
-  path == "/earthquakeMonthly.html" ||
-  path.endsWith("earthquakeMonthly.html") ||
-  path == "/earthquakeMonthly"
-) {
-  pushNews();
-  let body = document.querySelector("body");
-  body.style.overflow = "hidden";
-  let load = document.querySelector(".conload");
-  load.style.display = "flex";
-  // NAVBAR
+if (matchesPath("/earthquakeMonthly", "/earthquakeMonthly.html")) {
+  showPageLoader();
+
   const getNavbarMonth = document.querySelector(".month-month");
   const currentDate = new Date();
-  const monthNames = [
-    "Januari",
-    "Februari",
-    "Marert",
-    "April",
-    "May",
-    "Juni",
-    "Juli",
-    "Agustis",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
   const currentMonthName = monthNames[currentDate.getMonth()];
   const monthUpperCase = monthNames[currentDate.getMonth()].toUpperCase();
-  getNavbarMonth.innerHTML = monthUpperCase;
 
-  // Title Month
+  if (getNavbarMonth) {
+    getNavbarMonth.innerHTML = monthUpperCase;
+  }
+
   const getTitleMonth = document.querySelector(".titleMonth");
-  getTitleMonth.innerHTML = currentMonthName;
+  if (getTitleMonth) {
+    getTitleMonth.innerHTML = currentMonthName;
+  }
 
   function generateModal(earth, index) {
     return `
-    <div id="modal${index}" class="fixed inset-0 z-[9999] hidden overflow-hidden">
-        <div class="flex items-center justify-center min-h-screen px-4 mt-8">
-            <div class="relative bg-white rounded-lg shadow-lg w-4/5 md:w-4/5 lg:w-3/5 xl:w-2/5 overflow-auto">
-                <div class="flex justify-between items-center p-4 border-b">
-                    <h3 class="text-xl font-semibold">Detail Gempa Bumi</h3>
-                    <button onclick="closeModal('modal${index}')" class="text-gray-400 hover:text-gray-600">
+    <div id="modal${index}" class="fixed inset-0 z-[9999] hidden overflow-y-auto bg-slate-900/55 p-4 backdrop-blur-sm">
+        <div class="flex min-h-full items-center justify-center">
+            <div class="relative w-[92vw] max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+                <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4 md:px-7">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.25em] text-shiba">Detail Gempa</p>
+                        <h3 class="mt-1 text-xl font-semibold text-slate-900 md:text-2xl">Detail Gempa Bumi</h3>
+                    </div>
+                    <button onclick="closeModal('modal${index}')" class="rounded-full p-2 text-gray-400 transition hover:bg-slate-100 hover:text-gray-600">
                         <span class="text-xl">&times;</span>
                     </button>
                 </div>
-                <div class="p-4 flex flex-col md:flex-row h-80 md:h-auto">
-                    <div class="md:w-2/3">
-                        <ul class="list-disc pl-5 md:pl-14 md:mt-10">
+                <div class="grid max-h-[85vh] overflow-y-auto lg:grid-cols-[1fr_1.1fr]">
+                    <div class="order-2 p-5 md:p-7 lg:order-1">
+                        <ul class="list-disc space-y-2 pl-5 text-base leading-7 text-slate-700 md:pl-6">
                             <li>Tanggal : ${earth.Tanggal}</li>
                             <li>Jam : ${earth.Jam}</li>
                             <li>DateTime : ${earth.DateTime}</li>
@@ -327,8 +517,10 @@ if (
                             <li>Dirasakan : ${earth.Dirasakan}</li>
                         </ul>
                     </div>
-                    <div class="mt-4 md:mt-0 md:mr-24 md:w-1/3 flex justify-center">
-                        <img src="https://data.bmkg.go.id/DataMKG/TEWS/${earth.Shakemap}" alt="Earthquake Image" class="rounded-lg w-full h-full object-cover">
+                    <div class="order-1 bg-slate-100 p-4 md:p-6 lg:order-2">
+                        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                            <img src="https://data.bmkg.go.id/DataMKG/TEWS/${earth.Shakemap}" alt="Earthquake Image" class="h-full max-h-[70vh] w-full object-contain">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -337,40 +529,17 @@ if (
     `;
   }
 
-  // CONTENT MONTLY EARTHQUAKE
-  getDailyShiba().then((month) => {
-    // Convert Shiba Daily To Array
-    let shibaArray = Object.values(month).reverse();
-
-    // Container
+  const monthlyContentPromise = getDailyShiba().then((month) => {
+    const shibaArray = Object.values(month ?? {}).reverse();
     const containerContent = document.querySelector(".main-content");
     const modalContainer = document.querySelector(".modal-container");
 
+    if (!containerContent || !modalContainer) {
+      return;
+    }
+
     shibaArray.forEach((earth, index) => {
-      let city = [{ Wilayah: earth.Wilayah }];
-
-      function getCityName(city) {
-        const word = city.split(" ");
-        let cityName = word[word.length - 1];
-        if (cityName.includes("-")) {
-          cityName = cityName.replace("-", " ");
-        }
-        const lastWord = word[word.length - 2];
-        return lastWord + " " + cityName;
-      }
-
-      let cityNameArray = city.map((earthQuake) =>
-        getCityName(earthQuake.Wilayah)
-      );
-      let cityName = cityNameArray.join(", ");
-
-      function truncateText(text, maxLength) {
-        if (text.length > maxLength) {
-          return text.substring(0, maxLength) + "...";
-        }
-        return text;
-      }
-
+      const cityName = getCityNameLabel(earth?.Wilayah);
       const truncatedCityName = truncateText(cityName, 20);
 
       const earthquakeElement = `
@@ -395,9 +564,7 @@ if (
         </div>
         `;
       containerContent.innerHTML += earthquakeElement;
-
-      const modalHTML = generateModal(earth, index);
-      modalContainer.innerHTML += modalHTML;
+      modalContainer.innerHTML += generateModal(earth, index);
     });
 
     shibaArray.forEach((earth, index) => {
@@ -411,162 +578,34 @@ if (
     });
   });
 
-  //   For News
-  // FOR NEWS
-  shibaNews().then((data) => {
-    const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector(".news-shiba");
-
-    let countNews = 0;
-
-    firstValue.forEach((items, index) => {
-      if (countNews < 3) {
-        let timestamp = items.timestamp;
-        let convert = parseInt(timestamp);
-        let date = new Date(convert);
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let dayOfWeek = date.getDay();
-
-        let daysOfWeek = [
-          "Minggu",
-          "Senin",
-          "Selasa",
-          "Rabu",
-          "Kamis",
-          "Jumat",
-          "Sabtu",
-        ];
-        let dayName = daysOfWeek[dayOfWeek];
-
-        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
-          month < 10 ? "0" + month : month
-        }-${year}`;
-
-        function truncateText(text, maxLength) {
-          if (text.length > maxLength) {
-            return text.substring(0, maxLength) + "...";
-          }
-          return text;
-        }
-
-        let truncatedTitle = truncateText(items.title, 55);
-
-        let itemNews = `
-          <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
-              <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
-                  <p class="mb-3 font-semibold text-black">${items.snippet}</p>
-                  <a href="${items.newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank">
-                      Baca Selengkapnya >>
-                  </a>
-                  <div class="border-t-2 border-t-gray-400 mt-4">
-                      <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
-                  </div>
-              </div>
-          </div>
-        `;
-        getNewsContainer.innerHTML += itemNews;
-        countNews++;
-      }
-    });
-    load.style.display = "none";
-    body.style.overflow = "auto";
+  const monthlyNewsPromise = renderNewsSection(".news-shiba", shibaNews(), 3, {
+    moreSelector: ".news-more-link",
   });
+
+  Promise.allSettled([monthlyContentPromise, monthlyNewsPromise]).finally(
+    hidePageLoader
+  );
 }
 
-if (
-  path == "/newsList.html" ||
-  path.endsWith("newsList.html") ||
-  path == "/newsList"
-) {
-  let body = document.querySelector("body");
-  body.style.overflow = "hidden";
-  let load = document.querySelector(".conload");
-  load.style.display = "flex";
-  // FOR NEWS
-  shibaNews().then((data) => {
-    const firstValue = Object.values(data)[0];
-    let getNewsContainer = document.querySelector(".news-shiba");
-
-    let countNews = 0;
-
-    firstValue.forEach((items, index) => {
-      if (countNews < 39) {
-        let timestamp = items.timestamp;
-        let convert = parseInt(timestamp);
-        let date = new Date(convert);
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let dayOfWeek = date.getDay();
-
-        let daysOfWeek = [
-          "Minggu",
-          "Senin",
-          "Selasa",
-          "Rabu",
-          "Kamis",
-          "Jumat",
-          "Sabtu",
-        ];
-        let dayName = daysOfWeek[dayOfWeek];
-
-        let formattedDate = `${dayName}, ${day < 10 ? "0" + day : day}-${
-          month < 10 ? "0" + month : month
-        }-${year}`;
-
-        function truncateText(text, maxLength) {
-          if (text.length > maxLength) {
-            return text.substring(0, maxLength) + "...";
-          }
-          return text;
-        }
-
-        let truncatedTitle = truncateText(items.title, 55);
-
-        let itemNews = `
-          <div class="max-w-full bg-white rounded-xl shadow-md shadow-gray-500">
-              <img class="w-full max-h-64 rounded-t-lg lazyload" data-src="${items.images.thumbnailProxied}" alt="Image">
-              <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-shiba">${truncatedTitle}</h5>
-                  <p class="mb-3 font-semibold text-black">${items.snippet}</p>
-                  <a href="${items.newsUrl}" class="inline-flex items-center text-blue-600 hover:underline" target="_blank">
-                      Baca Selengkapnya >>
-                  </a>
-                  <div class="border-t-2 border-t-gray-400 mt-4">
-                      <p class="mt-3 text-sm text-gray-500">${formattedDate}</p>
-                  </div>
-              </div>
-          </div>
-        `;
-        getNewsContainer.innerHTML += itemNews;
-        countNews++;
-      }
-    });
-    load.style.display = "none";
-    body.style.overflow = "auto";
-  });
+if (matchesPath("/newsList", "/newsList.html")) {
+  showPageLoader();
+  renderNewsSection(".news-shiba", shibaNewsByMonth(), 39).finally(
+    hidePageLoader
+  );
 }
 
-if (
-  path == "/listHighm.html" ||
-  path.endsWith("listHighm.html") ||
-  path == "/listHighm"
-) {
+if (matchesPath("/listHighm", "/listHighm.html")) {
   getFiveMBmkg().then((data) => {
     const tbody = document.querySelector(".tbody");
+    const earthquakeList = data?.Infogempa?.gempa;
 
-    data.Infogempa.gempa.forEach((item, index) => {
-      let convert = parseInt(index);
+    if (!tbody || !Array.isArray(earthquakeList)) {
+      return;
+    }
+
+    earthquakeList.forEach((item, index) => {
+      const convert = parseInt(index, 10);
       const dataTable = `
-
             <tr class="bg-white border-b 0 hover:bg-gray-50 ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                     ${convert + 1}
@@ -590,8 +629,6 @@ if (
                     ${item.Wilayah}
                 </td>
             </tr>
-            
-            
             `;
       tbody.innerHTML += dataTable;
     });

@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: ['src/dist/*.html'],
-  darkMode: false,
   content: [
+    "./src/dist/**/*.html",
+    "./src/scripts/**/*.js",
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
@@ -20,4 +20,3 @@ module.exports = {
     require('flowbite/plugin')
   ],
 }
-
