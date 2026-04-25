@@ -5,7 +5,6 @@ const bmkgFiveM = process.env.API_MFIVEBMKG;
 
 // API SHIBA
 const allSource = process.env.API_ALLPARAMSHIBA;
-const shibaDaily = process.env.API_DAILYSHIBA;
 const shibaList = process.env.API_LISTSHIBA;
 const shibaFiveM = process.env.API_MFIVESHIBA;
 
@@ -51,7 +50,10 @@ export async function getAllParamShiba() {
 }
 
 export async function getDailyShiba() {
-  return fetchJson(shibaDaily, "getDailyShiba");
+  return fetchJson(
+    buildFirebasePath(allSource, "latest/items"),
+    "getDailyShiba"
+  );
 }
 
 export async function getListShiba() {
@@ -60,6 +62,24 @@ export async function getListShiba() {
 
 export async function getFiveMinuteShiba() {
   return fetchJson(shibaFiveM, "getFiveMinuteShiba");
+}
+
+export async function getMonthlyShiba() {
+  const latestData = await fetchJson(
+    buildFirebasePath(allSource, "latest"),
+    "getMonthlyShibaLatest"
+  );
+
+  const monthKey = latestData?.monthKey;
+
+  if (!monthKey) {
+    return latestData?.items ?? null;
+  }
+
+  return fetchJson(
+    buildFirebasePath(allSource, `byMonth/${monthKey}/items`),
+    "getMonthlyShiba"
+  );
 }
 
 // BMKG

@@ -4,6 +4,8 @@ const RETENTION_MONTHS = 2;
 const EARTHQUAKE_PREVIOUS_MONTH_BUFFER = 4;
 const BMKG_DAILY_URL =
   process.env.API_DAILYBMKG || process.env.API_DALYBMKG || null;
+const GEMPA_ALLOWED_ROOT_KEYS = new Set(["latest", "byMonth"]);
+const NEWS_ALLOWED_ROOT_KEYS = new Set(["latest", "byMonth"]);
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -93,6 +95,14 @@ function sanitizeEarthquakeItem(item) {
 function createEarthquakeKey(item) {
   const timestamp = `${item?.DateTime || Date.now()}`;
   return timestamp.replace(/[^0-9TZ:-]/g, "-");
+}
+
+function sortEarthquakeEntries(record = {}) {
+  return Object.entries(record).sort(
+    (firstItem, secondItem) =>
+      new Date(firstItem[1]?.DateTime).getTime() -
+      new Date(secondItem[1]?.DateTime).getTime()
+  );
 }
 
 function isSameMonth(dateString, referenceDate) {
@@ -196,7 +206,7 @@ module.exports = async function handler(request, response) {
     !process.env.NEWS_KEY ||
     !process.env.API_NEWSHIBA ||
     !BMKG_DAILY_URL ||
-    !process.env.API_DAILYSHIBA
+    !process.env.API_ALLPARAMSHIBA
   ) {
     return sendJson(response, 500, {
       ok: false,
@@ -217,6 +227,12 @@ module.exports = async function handler(request, response) {
     const refreshedAt = now.toISOString();
     const currentEarthquakeMonth = new Date(latestEarthquake.DateTime);
     const previousEarthquakeMonth = getPreviousMonthDate(currentEarthquakeMonth);
+    const earthquakeMonthKey = getMonthKey(currentEarthquakeMonth);
+    const previousEarthquakeMonthKey = getMonthKey(previousEarthquakeMonth);
+    const retainedEarthquakeMonthKeys = getRetainedMonthKeys(
+      currentEarthquakeMonth,
+      RETENTION_MONTHS
+    );
 
     await fetchJson(buildFirebasePath(process.env.API_NEWSHIBA, "latest"), {
       method: "PUT",
@@ -254,17 +270,39 @@ module.exports = async function handler(request, response) {
       }
     }
 
-    const existingEarthquakeData = (await fetchJson(process.env.API_DAILYSHIBA)) || {};
-    const sortedEarthquakeEntries = Object.entries(existingEarthquakeData).sort(
-      (firstItem, secondItem) =>
-        new Date(firstItem[1]?.DateTime).getTime() -
-        new Date(secondItem[1]?.DateTime).getTime()
+    const newsRoot = (await fetchJson(process.env.API_NEWSHIBA)) || {};
+    const deletedNewsLegacyKeys = [];
+
+    for (const newsRootKey of Object.keys(newsRoot)) {
+      if (!NEWS_ALLOWED_ROOT_KEYS.has(newsRootKey)) {
+        await fetchJson(buildFirebasePath(process.env.API_NEWSHIBA, newsRootKey), {
+          method: "DELETE",
+        });
+        deletedNewsLegacyKeys.push(newsRootKey);
+      }
+    }
+
+    const earthquakeRoot = (await fetchJson(process.env.API_ALLPARAMSHIBA)) || {};
+    const earthquakeByMonth = earthquakeRoot?.byMonth || {};
+    const legacyDailyData = earthquakeRoot?.daily || {};
+    const currentMonthSource =
+      earthquakeByMonth?.[earthquakeMonthKey]?.items ||
+      Object.fromEntries(
+        sortEarthquakeEntries(legacyDailyData).filter(([, item]) =>
+          isSameMonth(item?.DateTime, currentEarthquakeMonth)
+        )
+      );
+    const previousMonthSource =
+      earthquakeByMonth?.[previousEarthquakeMonthKey]?.items ||
+      Object.fromEntries(
+        sortEarthquakeEntries(legacyDailyData).filter(([, item]) =>
+          isSameMonth(item?.DateTime, previousEarthquakeMonth)
+        )
+      );
+    const currentMonthEarthquakes = sortEarthquakeEntries(currentMonthSource).map(
+      ([key, item]) => [key, sanitizeEarthquakeItem(item)]
     );
-    const currentMonthEarthquakes = sortedEarthquakeEntries
-      .filter(([, item]) => isSameMonth(item?.DateTime, currentEarthquakeMonth))
-      .map(([key, item]) => [key, sanitizeEarthquakeItem(item)]);
-    const previousMonthEarthquakes = sortedEarthquakeEntries
-      .filter(([, item]) => isSameMonth(item?.DateTime, previousEarthquakeMonth))
+    const previousMonthEarthquakes = sortEarthquakeEntries(previousMonthSource)
       .slice(-EARTHQUAKE_PREVIOUS_MONTH_BUFFER)
       .map(([key, item]) => [key, sanitizeEarthquakeItem(item)]);
 
@@ -273,20 +311,82 @@ module.exports = async function handler(request, response) {
       ([, item]) => item?.DateTime === latestEarthquake.DateTime
     );
 
-    const earthquakeMap = Object.fromEntries([
-      ...previousMonthEarthquakes,
-      ...currentMonthEarthquakes,
-    ]);
+    const updatedCurrentMonthEarthquakes = [...currentMonthEarthquakes];
 
     if (!latestEarthquakeExists) {
-      earthquakeMap[latestEarthquakeKey] = sanitizeEarthquakeItem(latestEarthquake);
+      updatedCurrentMonthEarthquakes.push([
+        latestEarthquakeKey,
+        sanitizeEarthquakeItem(latestEarthquake),
+      ]);
     }
 
-    await fetchJson(process.env.API_DAILYSHIBA, {
+    updatedCurrentMonthEarthquakes.sort(
+      (firstItem, secondItem) =>
+        new Date(firstItem[1]?.DateTime).getTime() -
+        new Date(secondItem[1]?.DateTime).getTime()
+    );
+
+    const currentMonthEarthquakeMap = Object.fromEntries(updatedCurrentMonthEarthquakes);
+    const latestEarthquakeMap = Object.fromEntries([
+      ...previousMonthEarthquakes,
+      ...updatedCurrentMonthEarthquakes,
+    ]);
+
+    await fetchJson(
+      buildFirebasePath(
+        process.env.API_ALLPARAMSHIBA,
+        `byMonth/${earthquakeMonthKey}`
+      ),
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          monthKey: earthquakeMonthKey,
+          refreshedAt,
+          itemCount: updatedCurrentMonthEarthquakes.length,
+          items: currentMonthEarthquakeMap,
+        }),
+      }
+    );
+
+    const deletedEarthquakeMonths = [];
+
+    for (const existingEarthquakeMonthKey of Object.keys(earthquakeByMonth)) {
+      if (!retainedEarthquakeMonthKeys.includes(existingEarthquakeMonthKey)) {
+        await fetchJson(
+          buildFirebasePath(
+            process.env.API_ALLPARAMSHIBA,
+            `byMonth/${existingEarthquakeMonthKey}`
+          ),
+          { method: "DELETE" }
+        );
+        deletedEarthquakeMonths.push(existingEarthquakeMonthKey);
+      }
+    }
+
+    await fetchJson(buildFirebasePath(process.env.API_ALLPARAMSHIBA, "latest"), {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(earthquakeMap),
+      body: JSON.stringify({
+        monthKey: earthquakeMonthKey,
+        previousMonthKey: previousEarthquakeMonthKey,
+        refreshedAt,
+        itemCount: Object.keys(latestEarthquakeMap).length,
+        items: latestEarthquakeMap,
+      }),
     });
+
+    const deletedGempaLegacyKeys = [];
+
+    for (const gempaRootKey of Object.keys(earthquakeRoot)) {
+      if (!GEMPA_ALLOWED_ROOT_KEYS.has(gempaRootKey)) {
+        await fetchJson(
+          buildFirebasePath(process.env.API_ALLPARAMSHIBA, gempaRootKey),
+          { method: "DELETE" }
+        );
+        deletedGempaLegacyKeys.push(gempaRootKey);
+      }
+    }
 
     return sendJson(response, 200, {
       ok: true,
@@ -296,9 +396,13 @@ module.exports = async function handler(request, response) {
       deletedMonths,
       latestCount: latestItems.length,
       monthlyCount: monthlyItems.length,
-      earthquakeMonth: getMonthKey(currentEarthquakeMonth),
+      deletedNewsLegacyKeys,
+      earthquakeMonth: earthquakeMonthKey,
+      deletedEarthquakeMonths,
+      deletedGempaLegacyKeys,
+      keptEarthquakeMonths: retainedEarthquakeMonthKeys,
       earthquakePreviousMonthBuffer: previousMonthEarthquakes.length,
-      earthquakeCount: Object.keys(earthquakeMap).length,
+      earthquakeCount: Object.keys(latestEarthquakeMap).length,
       earthquakeUpdated: !latestEarthquakeExists,
     });
   } catch (error) {

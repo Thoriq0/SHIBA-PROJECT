@@ -10,6 +10,7 @@ import {
   getDailyBmkg,
   getDailyShiba,
   getFiveMBmkg,
+  getMonthlyShiba,
   shibaNews,
   shibaNewsByMonth,
 } from "./api.js";
@@ -529,7 +530,7 @@ if (matchesPath("/earthquakeMonthly", "/earthquakeMonthly.html")) {
     `;
   }
 
-  const monthlyContentPromise = getDailyShiba().then((month) => {
+  const monthlyContentPromise = getMonthlyShiba().then((month) => {
     const shibaArray = Object.values(month ?? {}).reverse();
     const containerContent = document.querySelector(".main-content");
     const modalContainer = document.querySelector(".modal-container");
